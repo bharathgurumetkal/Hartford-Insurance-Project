@@ -1,0 +1,214 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@insurance.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "username": "agent1",
+      "email": "agent1@insurance.com",
+      "password": "agent123",
+      "role": "agent"
+    },
+    {
+      "id": 3,
+      "username": "agent2",
+      "email": "agent2@insurance.com",
+      "password": "agent123",
+      "role": "agent"
+    },
+    {
+      "id": 4,
+      "username": "customer1",
+      "email": "customer1@gmail.com",
+      "password": "cust123",
+      "role": "customer"
+    },
+    {
+      "id": 5,
+      "username": "customer2",
+      "email": "customer2@gmail.com",
+      "password": "cust123",
+      "role": "customer"
+    },
+    {
+      "id": 6,
+      "username": "customer3",
+      "email": "customer3@gmail.com",
+      "password": "cust123",
+      "role": "customer"
+    }
+  ],
+
+  "policies": [
+    {
+      "id": "POL-001",
+      "name": "Health Insurance Plan",
+      "type": "Health",
+      "premium": 12000,
+      "coverage": 500000,
+      "durationDays": 365,
+      "description": "Comprehensive health insurance coverage"
+    },
+    {
+      "id": "POL-002",
+      "name": "Vehicle Insurance Plan",
+      "type": "Vehicle",
+      "premium": 8000,
+      "coverage": 300000,
+      "durationDays": 365,
+      "description": "Complete vehicle insurance coverage"
+    },
+    {
+      "id": "POL-003",
+      "name": "Life Insurance Plan",
+      "type": "Life",
+      "premium": 15000,
+      "coverage": 1000000,
+      "durationDays": 730,
+      "description": "Long-term life insurance protection"
+    }
+  ],
+
+  "customers": [
+    {
+      "id": "CUST-001",
+      "userId": 4,
+      "fullName": "John Doe",
+      "phone": "9876543210",
+      "address": "Hyderabad",
+      "kycStatus": "Verified",
+      "communicationPreference": "Email",
+      "policyIds": ["POL-001", "POL-002"],
+      "policyStartDate": "2026-01-10"
+    },
+    {
+      "id": "CUST-002",
+      "userId": 5,
+      "fullName": "Priya Sharma",
+      "phone": "9876501234",
+      "address": "Bangalore",
+      "kycStatus": "Pending",
+      "communicationPreference": "Phone",
+      "policyIds": ["POL-003"],
+      "policyStartDate": "2026-02-05"
+    },
+    {
+      "id": "CUST-003",
+      "userId": 6,
+      "fullName": "Rahul Verma",
+      "phone": "9876598765",
+      "address": "Chennai",
+      "kycStatus": "Verified",
+      "communicationPreference": "SMS",
+      "policyIds": ["POL-002"],
+      "policyStartDate": "2026-01-20"
+    }
+  ],
+
+  "agents": [
+    {
+      "id": "AGT-001",
+      "userId": 2,
+      "assignedCustomers": ["CUST-001", "CUST-002"],
+      "commissionRate": 10
+    },
+    {
+      "id": "AGT-002",
+      "userId": 3,
+      "assignedCustomers": ["CUST-003"],
+      "commissionRate": 12
+    }
+  ],
+
+  "claims": [
+    {
+      "id": "CLM-001",
+      "policyId": "POL-001",
+      "customerId": "CUST-001",
+      "claimType": "Health",
+      "amount": 50000,
+      "status": "Pending",
+      "documents": ["bill1.pdf", "report1.jpg"],
+      "remark": ""
+    },
+    {
+      "id": "CLM-002",
+      "policyId": "POL-002",
+      "customerId": "CUST-001",
+      "claimType": "Vehicle",
+      "amount": 20000,
+      "status": "Approved",
+      "documents": ["garage_bill.pdf"],
+      "remark": "Claim approved successfully"
+    },
+    {
+      "id": "CLM-003",
+      "policyId": "POL-003",
+      "customerId": "CUST-002",
+      "claimType": "Life",
+      "amount": 100000,
+      "status": "Rejected",
+      "documents": ["medical_report.pdf"],
+      "remark": "Insufficient documents"
+    }
+  ],
+
+  "documents": [
+    {
+      "id": "DOC-001",
+      "customerId": "CUST-001",
+      "documentType": "Aadhar",
+      "fileName": "john_aadhar.pdf",
+      "expiryDate": "2030-05-10"
+    },
+    {
+      "id": "DOC-002",
+      "customerId": "CUST-001",
+      "documentType": "PAN",
+      "fileName": "john_pan.pdf"
+    },
+    {
+      "id": "DOC-003",
+      "customerId": "CUST-002",
+      "documentType": "Aadhar",
+      "fileName": "priya_aadhar.pdf",
+      "expiryDate": "2031-08-15"
+    },
+    {
+      "id": "DOC-004",
+      "customerId": "CUST-003",
+      "documentType": "Driving License",
+      "fileName": "rahul_dl.pdf",
+      "expiryDate": "2028-04-22"
+    }
+  ],
+
+  "communications": [
+    {
+      "id": "COM-001",
+      "agentId": "AGT-001",
+      "customerId": "CUST-001",
+      "date": "2026-02-15",
+      "message": "Called customer regarding claim document update."
+    },
+    {
+      "id": "COM-002",
+      "agentId": "AGT-001",
+      "customerId": "CUST-002",
+      "date": "2026-02-18",
+      "message": "Explained policy renewal process."
+    },
+    {
+      "id": "COM-003",
+      "agentId": "AGT-002",
+      "customerId": "CUST-003",
+      "date": "2026-02-20",
+      "message": "Assisted customer with vehicle claim."
+    }
+  ]
+}
