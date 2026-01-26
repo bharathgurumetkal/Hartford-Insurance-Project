@@ -1,52 +1,145 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "email": "admin@insurance.com",
       "password": "admin123",
       "role": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "agent1",
       "email": "agent1@insurance.com",
       "password": "agent123",
       "role": "agent"
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "agent2",
       "email": "agent2@insurance.com",
       "password": "agent123",
       "role": "agent"
     },
     {
-      "id": 4,
+      "id": "4",
       "username": "customer1",
       "email": "customer1@gmail.com",
       "password": "cust123",
       "role": "customer"
     },
     {
-      "id": 5,
+      "id": "5",
       "username": "customer2",
       "email": "customer2@gmail.com",
       "password": "cust123",
       "role": "customer"
     },
     {
-      "id": 6,
-      "username": "customer3",
-      "email": "customer3@gmail.com",
-      "password": "cust123",
+      "id": "6",
+      "username": "abhi",
+      "email": "abhi@gmail.com",
+      "password": "abhi",
+      "role": "customer"
+    },
+    {
+      "id": "e9d7",
+      "username": "GURUMETKAL BHARATH SIMHA REDDY",
+      "email": "bharath@gmail.com",
+      "password": "bharath",
+      "role": "customer"
+    },
+    {
+      "id": "8f89",
+      "username": "Anand",
+      "email": "anandch119@gmail.com",
+      "password": "Anand@123",
+      "role": "agent"
+    },
+    {
+      "id": "6fa5",
+      "username": "Anand ",
+      "email": "anandch@gmail.com",
+      "password": "Anand@123",
       "role": "customer"
     }
   ],
-
+  "customers": [
+    {
+      "id": "1",
+      "userId": 4,
+      "fullName": "John ",
+      "phone": "9876543210",
+      "address": "Hyderabad",
+      "kycStatus": "Verified",
+      "communicationPreference": "Phone",
+      "policyIds": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "2",
+      "userId": 5,
+      "fullName": "Priya Sharma",
+      "phone": "9876501234",
+      "address": "Bangalore",
+      "kycStatus": "Pending",
+      "communicationPreference": "Phone",
+      "policyIds": [
+        3
+      ]
+    },
+    {
+      "id": "3",
+      "userId": 6,
+      "fullName": "abhi",
+      "phone": "",
+      "address": "",
+      "kycStatus": "Pending",
+      "communicationPreference": "Email",
+      "policyIds": []
+    },
+    {
+      "id": "63c3",
+      "userId": null,
+      "fullName": "GURUMETKAL BHARATH SIMHA REDDY",
+      "phone": "",
+      "address": "",
+      "kycStatus": "Pending",
+      "communicationPreference": "Email",
+      "policyIds": []
+    },
+    {
+      "id": "d68b",
+      "userId": 6,
+      "fullName": "Anand ",
+      "phone": "",
+      "address": "",
+      "kycStatus": "Pending",
+      "communicationPreference": "Email",
+      "policyIds": []
+    }
+  ],
+  "agents": [
+    {
+      "id": "2",
+      "userId": 3,
+      "assignedCustomerIds": [
+        2
+      ],
+      "commissionRate": 12
+    },
+    {
+      "id": "b6f9",
+      "userId": 8,
+      "assignedCustomerIds": [],
+      "commissionRate": 10
+    }
+  ],
   "policies": [
     {
-      "id": "POL-001",
+      "id": "1",
       "name": "Health Insurance Plan",
       "type": "Health",
       "premium": 12000,
@@ -55,7 +148,7 @@
       "description": "Comprehensive health insurance coverage"
     },
     {
-      "id": "POL-002",
+      "id": "2",
       "name": "Vehicle Insurance Plan",
       "type": "Vehicle",
       "premium": 8000,
@@ -64,7 +157,7 @@
       "description": "Complete vehicle insurance coverage"
     },
     {
-      "id": "POL-003",
+      "id": "3",
       "name": "Life Insurance Plan",
       "type": "Life",
       "premium": 15000,
@@ -73,142 +166,178 @@
       "description": "Long-term life insurance protection"
     }
   ],
-
-  "customers": [
-    {
-      "id": "CUST-001",
-      "userId": 4,
-      "fullName": "John Doe",
-      "phone": "9876543210",
-      "address": "Hyderabad",
-      "kycStatus": "Verified",
-      "communicationPreference": "Email",
-      "policyIds": ["POL-001", "POL-002"],
-      "policyStartDate": "2026-01-10"
-    },
-    {
-      "id": "CUST-002",
-      "userId": 5,
-      "fullName": "Priya Sharma",
-      "phone": "9876501234",
-      "address": "Bangalore",
-      "kycStatus": "Pending",
-      "communicationPreference": "Phone",
-      "policyIds": ["POL-003"],
-      "policyStartDate": "2026-02-05"
-    },
-    {
-      "id": "CUST-003",
-      "userId": 6,
-      "fullName": "Rahul Verma",
-      "phone": "9876598765",
-      "address": "Chennai",
-      "kycStatus": "Verified",
-      "communicationPreference": "SMS",
-      "policyIds": ["POL-002"],
-      "policyStartDate": "2026-01-20"
-    }
-  ],
-
-  "agents": [
-    {
-      "id": "AGT-001",
-      "userId": 2,
-      "assignedCustomers": ["CUST-001", "CUST-002"],
-      "commissionRate": 10
-    },
-    {
-      "id": "AGT-002",
-      "userId": 3,
-      "assignedCustomers": ["CUST-003"],
-      "commissionRate": 12
-    }
-  ],
-
   "claims": [
     {
-      "id": "CLM-001",
-      "policyId": "POL-001",
-      "customerId": "CUST-001",
-      "claimType": "Health",
+      "id": "1",
+      "policyId": 1,
+      "customerId": 1,
+      "claimId": "CLM-001",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2025-12-15",
       "amount": 50000,
       "status": "Pending",
-      "documents": ["bill1.pdf", "report1.jpg"],
-      "remark": ""
+      "adminRemark": "Under Review",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2025-12-15"
+        },
+        {
+          "status": "Processing",
+          "message": "Documents received and under verification",
+          "date": "2025-12-16"
+        }
+      ]
     },
     {
-      "id": "CLM-002",
-      "policyId": "POL-002",
-      "customerId": "CUST-001",
-      "claimType": "Vehicle",
+      "id": "2",
+      "policyId": 2,
+      "customerId": 1,
+      "claimId": "CLM-002",
+      "policyName": "Vehicle Insurance Plan",
+      "type": "Vehicle",
+      "date": "2025-11-20",
       "amount": 20000,
       "status": "Approved",
-      "documents": ["garage_bill.pdf"],
-      "remark": "Claim approved successfully"
+      "adminRemark": "Approved - Damage assessment completed",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2025-11-20"
+        },
+        {
+          "status": "Processing",
+          "message": "Documents received and under verification",
+          "date": "2025-11-21"
+        },
+        {
+          "status": "Approved",
+          "message": "Claim approved after damage assessment",
+          "date": "2025-12-10"
+        }
+      ]
     },
     {
-      "id": "CLM-003",
-      "policyId": "POL-003",
-      "customerId": "CUST-002",
-      "claimType": "Life",
-      "amount": 100000,
-      "status": "Rejected",
-      "documents": ["medical_report.pdf"],
-      "remark": "Insufficient documents"
+      "id": "44de",
+      "policyId": "1",
+      "customerId": "1",
+      "claimId": "CLM-1104",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-26",
+      "amount": 60000,
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-26"
+        }
+      ]
+    },
+    {
+      "id": "dcaf",
+      "policyId": "1",
+      "customerId": "1",
+      "claimId": "CLM-7266",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-26",
+      "amount": 80000,
+      "description": "this is a test one",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "Change Detectors.pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-26"
+        }
+      ]
+    },
+    {
+      "id": "5551",
+      "policyId": "2",
+      "customerId": "1",
+      "claimId": "CLM-6108",
+      "policyName": "Vehicle Insurance Plan",
+      "type": "Vehicle",
+      "date": "2026-01-26",
+      "amount": 20000,
+      "description": "this is a vehivle issue occured",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "NGProjectDoc (1).pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-26"
+        }
+      ]
+    },
+    {
+      "id": "81b9",
+      "policyId": "2",
+      "customerId": "1",
+      "claimId": "CLM-2354",
+      "policyName": "Vehicle Insurance Plan",
+      "type": "Vehicle",
+      "date": "2026-01-26",
+      "amount": null,
+      "description": "",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-26"
+        }
+      ]
+    },
+    {
+      "id": "a882",
+      "policyId": "1",
+      "customerId": "1",
+      "claimId": "CLM-6910",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-26",
+      "amount": null,
+      "description": "this is test description for health claim",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "Change Detectors.pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-26"
+        }
+      ]
     }
   ],
-
   "documents": [
     {
-      "id": "DOC-001",
-      "customerId": "CUST-001",
+      "id": "1",
+      "customerId": 1,
       "documentType": "Aadhar",
       "fileName": "john_aadhar.pdf",
       "expiryDate": "2030-05-10"
-    },
-    {
-      "id": "DOC-002",
-      "customerId": "CUST-001",
-      "documentType": "PAN",
-      "fileName": "john_pan.pdf"
-    },
-    {
-      "id": "DOC-003",
-      "customerId": "CUST-002",
-      "documentType": "Aadhar",
-      "fileName": "priya_aadhar.pdf",
-      "expiryDate": "2031-08-15"
-    },
-    {
-      "id": "DOC-004",
-      "customerId": "CUST-003",
-      "documentType": "Driving License",
-      "fileName": "rahul_dl.pdf",
-      "expiryDate": "2028-04-22"
-    }
-  ],
-
-  "communications": [
-    {
-      "id": "COM-001",
-      "agentId": "AGT-001",
-      "customerId": "CUST-001",
-      "date": "2026-02-15",
-      "message": "Called customer regarding claim document update."
-    },
-    {
-      "id": "COM-002",
-      "agentId": "AGT-001",
-      "customerId": "CUST-002",
-      "date": "2026-02-18",
-      "message": "Explained policy renewal process."
-    },
-    {
-      "id": "COM-003",
-      "agentId": "AGT-002",
-      "customerId": "CUST-003",
-      "date": "2026-02-20",
-      "message": "Assisted customer with vehicle claim."
     }
   ]
 }

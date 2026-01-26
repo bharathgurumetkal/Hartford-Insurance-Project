@@ -1,0 +1,22 @@
+/* Hero text fade animation */
+.hero-animate {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Material Icon inside feature icon box */
+.icon-box .material-icons {
+  font-size: 28px;
+  color: white;
+}
+
+/* Fade-in keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,200 @@
+<!-- ===== HEADER CARD ===== -->
+<div class="bg-gradient-to-r from-slate-900 to-blue-600 text-white rounded-2xl p-8 mb-8">
+
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center gap-4">
+      <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center">
+        <span class="material-icons text-3xl">assignment_turned_in</span>
+      </div>
+      <div>
+        <h2 class="text-3xl font-bold">Claims Center</h2>
+        <p class="text-blue-100">File and track your insurance claims</p>
+      </div>
+    </div>
+
+<button 
+  (click)="openFileClaimModal()"
+  class="bg-white text-blue-700 px-5 py-2 rounded-lg font-medium shadow hover:scale-105 transition">
+  + File New Claim
+</button>
+<!-- Modal -->
+@if (showFileModal) {
+  <app-file-claim (closeModal)="closeFileClaimModal()"></app-file-claim>
+}
+  </div>
+
+  <!-- STATS -->
+  <div class="grid md:grid-cols-4 gap-4">
+    <div class="bg-white/10 p-4 rounded-xl">
+      <p class="text-blue-100 text-sm">Total Claims</p>
+      <h3 class="text-2xl font-bold">{{ totalClaims }}</h3>
+    </div>
+
+    <div class="bg-white/10 p-4 rounded-xl">
+      <p class="text-green-200 text-sm">Approved</p>
+      <h3 class="text-2xl font-bold">{{ approvedCount }}</h3>
+    </div>
+
+    <div class="bg-white/10 p-4 rounded-xl">
+      <p class="text-yellow-200 text-sm">Pending</p>
+      <h3 class="text-2xl font-bold">{{ pendingCount }}</h3>
+    </div>
+
+    <div class="bg-white/10 p-4 rounded-xl">
+      <p class="text-blue-100 text-sm">Amount Received</p>
+      <h3 class="text-2xl font-bold">${{ totalAmountReceived }}</h3>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== FILTER TABS ===== -->
+<div class="flex gap-3 mb-6">
+
+  <button (click)="filterClaims('All')"
+    class="px-4 py-2 rounded-lg border"
+    [class.bg-blue-600]="activeTab==='All'"
+    [class.text-white]="activeTab==='All'">
+    All Claims
+  </button>
+
+  <button (click)="filterClaims('Pending')"
+    class="px-4 py-2 rounded-lg border"
+    [class.bg-blue-600]="activeTab==='Pending'"
+    [class.text-white]="activeTab==='Pending'">
+    Pending
+  </button>
+
+  <button (click)="filterClaims('Approved')"
+    class="px-4 py-2 rounded-lg border"
+    [class.bg-blue-600]="activeTab==='Approved'"
+    [class.text-white]="activeTab==='Approved'">
+    Approved
+  </button>
+
+  <button (click)="filterClaims('Rejected')"
+    class="px-4 py-2 rounded-lg border"
+    [class.bg-blue-600]="activeTab==='Rejected'"
+    [class.text-white]="activeTab==='Rejected'">
+    Rejected
+  </button>
+
+</div>
+
+
+<!-- ===== CLAIM CARDS ===== -->
+<div class="space-y-5">
+
+  @for (claim of filteredClaims; track claim.id) {
+
+  <div class="bg-white rounded-xl shadow overflow-hidden">
+
+    <!-- Collapsed Header -->
+    <div class="p-6 flex justify-between items-center cursor-pointer"
+         (click)="toggleExpand(claim)">
+
+      <div class="flex items-center gap-5">
+
+        <div class="w-14 h-14 rounded-full flex items-center justify-center"
+             [ngClass]="getStatusColor(claim.status)">
+          <span class="material-icons text-2xl">
+            {{ getStatusIcon(claim.status) }}
+          </span>
+        </div>
+
+        <div>
+          <div class="flex items-center gap-3">
+            <h3 class="font-bold text-slate-900">{{ claim.claimId }}</h3>
+
+            <span class="text-xs px-3 py-1 rounded-full font-medium"
+              [ngClass]="{
+                'bg-green-100 text-green-700': claim.status === 'Approved',
+                'bg-blue-100 text-blue-700': claim.status === 'Pending',
+                'bg-red-100 text-red-700': claim.status === 'Rejected'
+              }">
+              {{ claim.status }}
+            </span>
+          </div>
+
+<p class="text-slate-600">{{ claim.policyName }}</p>
+
+<!-- Claim Description (only if present) -->
+@if (claim.description) {
+  <div class="flex items-center gap-2 text-sm text-slate-500 mt-1">
+    <span class="material-icons text-sm text-slate-400">notes</span>
+    <span>{{ claim.description }}</span>
+  </div>
+}
+
+<!-- Type + Date -->
+<div class="flex gap-4 text-sm text-slate-500 mt-1">
+  <div class="flex items-center gap-1">
+    <span class="material-icons text-sm">category</span>
+    {{ claim.type }}
+  </div>
+
+  <div class="flex items-center gap-1">
+    <span class="material-icons text-sm">event</span>
+    {{ claim.date }}
+  </div>
+</div>
+
+        </div>
+      </div>
+
+      <div class="text-right flex items-center gap-4">
+        <div>
+          <p class="text-xl font-bold text-slate-900">${{ claim.amount }}</p>
+          <p class="text-slate-500 text-sm">Claim Amount</p>
+        </div>
+
+        <span class="material-icons text-slate-400 transition"
+              [class.rotate-180]="claim.expanded">
+          expand_more
+        </span>
+      </div>
+    </div>
+
+
+    <!-- Expanded Section -->
+    @if (claim.expanded) {
+
+    <div class="border-t px-6 py-5 bg-slate-50 grid md:grid-cols-2 gap-6">
+
+      <!-- Admin Remark -->
+      <div class="bg-white rounded-lg p-4 shadow-sm">
+        <h4 class="font-semibold flex items-center gap-2 mb-2">
+          <span class="material-icons text-blue-600">chat</span>
+          Admin Remark
+        </h4>
+        <p class="text-slate-600">
+          {{ claim.adminRemark || 'No remark yet.' }}
+        </p>
+      </div>
+
+      <!-- Timeline -->
+      <div class="bg-white rounded-lg p-4 shadow-sm">
+        <h4 class="font-semibold flex items-center gap-2 mb-3">
+          <span class="material-icons text-blue-600">timeline</span>
+          Claim Timeline
+        </h4>
+
+        <ul class="space-y-3 text-sm text-slate-600">
+          @for (step of claim.timeline; track step.status) {
+            <li class="flex justify-between">
+              <span>{{ step.status }} — {{ step.message }}</span>
+              <span>{{ step.date }}</span>
+            </li>
+          }
+        </ul>
+
+      </div>
+    </div>
+
+    }
+
+  </div>
+
+  }
+
+</div>

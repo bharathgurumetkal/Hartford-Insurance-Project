@@ -1,39 +1,72 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { DataTable } from '../../app/components/data-table/data-table';
-
-
+import { CommonModule } from '@angular/common';
+import { Auth } from '../../auth/services/auth';
+import { DataTable } from '../../components/data-table/data-table';
+import { AddAgentModal } from '../add-agent-modal/add-agent-modal';
+import { ConfirmModal } from '../confirm-modal/confirm-modal';
 
 @Component({
   selector: 'app-agent-management',
-  imports: [DataTable],
+  standalone: true,
+  imports: [CommonModule, DataTable, AddAgentModal,ConfirmModal],
   templateUrl: './agent-management.html',
-  styleUrl: './agent-management.css',
 })
 export class AgentManagement {
 
-  agents:any[]=[];
+  agents: any[] = [];
+  showAddModal = false;
 
-  columns:string[]=[];
-  keys:string[]=[];
+  columns = ['Agent ID', 'Email', 'Commission', 'Status', 'Actions'];
+  keys = ['id', 'email', 'commissionRate', 'status'];
 
-constructor(private api:AuthService){}
-ngOnInit(){
-  this.getAgents();
+  constructor(private api: Auth) {}
+
+  ngOnInit() {
+    this.loadAgents();
+  }
+
+  loadAgents() {
+  this.api.getAgents().subscribe((agents: any) => {
+    setTimeout(() => {
+      this.agents = agents.map((a: any) => ({
+        ...a,
+        status: 'Active'
+      }));
+    });
+  });
 }
-getAgents(){
-  this.api.getAgents().subscribe((agents:any)=>{
-    this.agents=agents;
-    if(agents.length>0){
-      this.keys=Object.keys(agents[0]);
-      this.columns=this.keys.map(k=>
-        k.replace(/([A-Z])/g,'$1').toUpperCase()
-      )
-    }
 
-  })
-}
+
+  
 
 
 
+  electedAgentId: number | null = null;
+  showConfirmModal = false;
+
+  openDeleteModal(agentId: number) {
+    this.electedAgentId = agentId;
+    this.showConfirmModal = true;
+  }
+
+  confirmDelete() {
+    if (this.electedAgentId == null) return;
+
+    fetch(`http://localhost:3000/agents/${this.electedAgentId}`, {
+      method: 'DELETE'
+    }).then(() => {
+      this.showConfirmModal = false;
+      this.electedAgentId = null;
+      this.loadAgents();
+    });
+  }
+
+  openAddModal() {
+    this.showAddModal = true;
+  }
+
+  onAgentAdded() {
+    this.showAddModal = false;
+    this.loadAgents();
+  }
 }
