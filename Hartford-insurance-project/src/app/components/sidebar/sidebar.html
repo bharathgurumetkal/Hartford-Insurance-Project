@@ -1,0 +1,14 @@
+<aside class="h-300 w-72 glass shadow-2xl border-r border-white/40 p-6 hidden lg:block" [ngClass]="roleColor">
+  <h1 class="text-3xl font-bold mb-10 text-white-600 ">InsureX</h1>
+  <nav class="space-y-3">
+  <a *ngFor="let item of menu"
+   [routerLink]="item.route"
+   routerLinkActive="font-semibold bg-blue-50"
+   #rla="routerLinkActive"
+   [ngClass]="rla.isActive ? roleTextColor : 'text-black'"
+   class="block pl-6 py-3 rounded-xl transition hover:bg-slate-100">
+  {{ item.label }}
+</a>
+
+  </nav>
+</aside>
