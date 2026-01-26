@@ -1,0 +1,23 @@
+<div class="min-h-screen flex bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-100">
+
+  <!-- Sidebar (unchanged) -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Right section -->
+  <div class="flex-1 flex flex-col">
+
+    <!-- Header -->
+    <app-header
+      title="Dashboard"
+      role="Admin"
+      username="User">
+    </app-header>
+
+    <!-- Routed Content -->
+    <main class="flex-1 p-10 overflow-y-auto">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

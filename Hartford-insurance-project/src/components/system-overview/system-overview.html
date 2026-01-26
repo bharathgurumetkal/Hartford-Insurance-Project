@@ -1,1 +1,100 @@
-<h1>system overview</h1>
+
+<div class="mb-8">
+  <h1 class="text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
+  <p class="text-sm text-gray-500 mt-1">
+    System overview & recent activity
+  </p>
+</div>
+
+
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+  <app-stat-card
+    title="Total Policies"
+    [value]="stats.policies"
+    color="blue">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Agents"
+    [value]="stats.agents"
+    color="green">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Claims"
+    [value]="stats.claims"
+    color="orange">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Revenue"
+    [value]="'₹ ' + stats.revenue"
+    color="purple">
+  </app-stat-card>
+
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-10">
+
+
+  <div class="xl:col-span-2 bg-white rounded-2xl border shadow-sm p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-6">
+      Claims Overview
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <app-stat-card
+        title="Pending"
+        [value]="claimsSummary.pending"
+        color="orange">
+      </app-stat-card>
+
+      <app-stat-card
+        title="Approved"
+        [value]="claimsSummary.approved"
+        color="green">
+      </app-stat-card>
+
+      <app-stat-card
+        title="Rejected"
+        [value]="claimsSummary.rejected"
+        color="red">
+      </app-stat-card>
+    </div>
+  </div>
+
+
+  <div class="bg-white rounded-2xl border shadow-sm p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-6">
+      Recent Activity
+    </h2>
+
+    <ul class="space-y-4">
+      <li
+        *ngFor="let c of recentActivities"
+        class="flex items-center justify-between text-sm">
+
+        <div class="flex items-center gap-3">
+          <span
+            class="w-2.5 h-2.5 rounded-full"
+            [ngClass]="{
+              'bg-orange-400': c.status === 'Pending',
+              'bg-green-500': c.status === 'Approved',
+              'bg-red-500': c.status === 'Rejected'
+            }">
+          </span>
+
+          <span class="text-gray-700">
+            Claim #{{ c.id }}
+          </span>
+        </div>
+
+        <span class="text-xs text-gray-500">
+          {{ c.status }}
+        </span>
+      </li>
+    </ul>
+  </div>
+
+</div>

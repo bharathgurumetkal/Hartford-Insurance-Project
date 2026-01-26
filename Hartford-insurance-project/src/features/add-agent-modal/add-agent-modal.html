@@ -1,0 +1,35 @@
+<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl p-6 w-[400px] shadow-lg">
+    <h2 class="text-lg font-semibold mb-4">Add New Agent</h2>
+
+    <div class="space-y-4">
+      <input
+        type="email"
+        placeholder="Agent Email"
+        class="w-full border rounded px-3 py-2"
+        [(ngModel)]="email">
+
+      <input
+        type="number"
+        placeholder="Commission %"
+        class="w-full border rounded px-3 py-2"
+        [(ngModel)]="commissionRate">
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6">
+      <button
+        class="px-4 py-2 border rounded"
+        (click)="close.emit()">
+        Cancel
+      </button>
+
+      <button
+        class="px-4 py-2 bg-blue-600 text-white rounded"
+        (click)="addAgent()">
+        Add Agent
+      </button>
+    </div>
+  </div>
+
+</div>

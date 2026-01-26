@@ -48,6 +48,20 @@
       "email": "bharath@gmail.com",
       "password": "bharath",
       "role": "customer"
+    },
+    {
+      "id": "8f89",
+      "username": "Anand",
+      "email": "anandch119@gmail.com",
+      "password": "Anand@123",
+      "role": "agent"
+    },
+    {
+      "id": "6fa5",
+      "username": "Anand ",
+      "email": "anandch@gmail.com",
+      "password": "Anand@123",
+      "role": "customer"
     }
   ],
   "customers": [
@@ -95,18 +109,19 @@
       "kycStatus": "Pending",
       "communicationPreference": "Email",
       "policyIds": []
+    },
+    {
+      "id": "d68b",
+      "userId": 6,
+      "fullName": "Anand ",
+      "phone": "",
+      "address": "",
+      "kycStatus": "Pending",
+      "communicationPreference": "Email",
+      "policyIds": []
     }
   ],
   "agents": [
-    {
-      "id": "1",
-      "userId": 2,
-      "assignedCustomerIds": [
-        1,
-        2
-      ],
-      "commissionRate": 10
-    },
     {
       "id": "2",
       "userId": 3,
@@ -114,6 +129,12 @@
         2
       ],
       "commissionRate": 12
+    },
+    {
+      "id": "b6f9",
+      "userId": 8,
+      "assignedCustomerIds": [],
+      "commissionRate": 10
     }
   ],
   "policies": [

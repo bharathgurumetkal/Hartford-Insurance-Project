@@ -144,4 +144,32 @@ export class Auth {
     const user = this.getUser();
     return user?.role;
   }
+
+
+getPolicies(){
+    return this.http.get("http://localhost:3000/policies")
+  }
+
+  getUsers(){
+    return this.http.get("http://localhost:3000/users")
+  }
+
+  getCustomers(){
+    return this.http.get("http://localhost:3000/customers")
+  }
+
+  getAgents(){
+    return this.http.get("http://localhost:3000/agents")
+  }
+
+  getClaims(){
+    return this.http.get("http://localhost:3000/claims")
+  }
+
+  getDocuments(){
+    return this.http.get("http://localhost:3000/documents")
+  }
+
+
+
 }

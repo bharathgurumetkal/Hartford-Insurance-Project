@@ -13,6 +13,8 @@ import { DashboardLayout } from '../components/layout/dashboard-layout/dashboard
 import { Claims } from '../components/claims/claims';
 import { Admin } from '../components/admin/admin';
 import { PolicyManagement } from '../components/policy-management/policy-management';
+import { SystemOverview } from '../features/system-overview/system-overview';
+import { AgentManagement } from '../features/agent-management/agent-management';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -59,11 +61,11 @@ export const routes: Routes = [
             { path: '', redirectTo: 'admin', pathMatch: 'full' },
             { path: 'admin', component: Admin }, // Placeholder - replace with AdminDashboard
             { path: 'profile', component: CustomerProfile }, // Placeholder - replace with AdminProfile
-            { path: 'agent-management', component: BrowsePolicies }, // Placeholder
+            { path: 'agent-management', component: AgentManagement}, // Placeholder
             { path: 'customer-management', component: MyPolicies }, // Placeholder
             { path: 'policy-management', component: PolicyManagement }, // Placeholder
             { path: 'claims-review', component: Documents }, // Placeholder
-            { path: 'system-overview', component: CustomerDashboard }, // Placeholder
+            { path: 'system-overview', component:SystemOverview }, // Placeholder
             { path: 'reports', component: MyPolicies } // Placeholder
         ]
     }
