@@ -48,39 +48,56 @@
             required>
         </div>
 
-        <!-- Email -->
-        <label class="block text-slate-700 font-medium mb-2">Email Address</label>
-        <div class="relative mb-5">
-          <span class="material-icons absolute left-3 top-3 text-slate-400">mail</span>
-          <input type="email"
-            name="email"
-            [(ngModel)]="email"
-            class="w-full pl-10 pr-4 py-3 border rounded-lg outline-none 
-                   focus:ring-2 focus:ring-blue-600"
-            placeholder="name@company.com"
-            required>
-        </div>
+       <!-- Email -->
+<label class="block text-slate-700 font-medium mb-2">Email Address</label>
+<div class="relative mb-2">
+  <span class="material-icons absolute left-3 top-3 text-slate-400">mail</span>
+  <input type="email"
+    name="email"
+    [(ngModel)]="email"
+    (blur)="checkEmail()"
+    class="w-full pl-10 pr-4 py-3 border rounded-lg outline-none 
+           focus:ring-2 focus:ring-blue-600"
+    placeholder="name@company.com"
+    required>
+</div>
 
-        <!-- Password -->
-        <label class="block text-slate-700 font-medium mb-2">Password</label>
-        <div class="relative mb-5">
-          <span class="material-icons absolute left-3 top-3 text-slate-400">lock</span>
+<!-- Email exists message -->
+<p *ngIf="emailExists" class="text-red-500 text-sm mb-3">
+  Email already registered. Try login.
+</p>
 
-          <input 
-            name="password"
-            [(ngModel)]="password"
-            [type]="showPassword ? 'text' : 'password'"
-            class="w-full pl-10 pr-10 py-3 border rounded-lg outline-none 
-                   focus:ring-2 focus:ring-blue-600"
-            placeholder="••••••••"
-            required>
 
-          <span 
-            class="material-icons absolute right-3 top-3 text-slate-400 cursor-pointer"
-            (click)="togglePassword()">
-            {{ showPassword ? 'visibility_off' : 'visibility' }}
-          </span>
-        </div>
+<!-- Password -->
+<label class="block text-slate-700 font-medium mb-2">Password</label>
+<div class="relative mb-2">
+  <span class="material-icons absolute left-3 top-3 text-slate-400">lock</span>
+
+  <input 
+    name="password"
+    [(ngModel)]="password"
+    (input)="checkPasswordStrength()"
+    [type]="showPassword ? 'text' : 'password'"
+    class="w-full pl-10 pr-10 py-3 border rounded-lg outline-none 
+           focus:ring-2 focus:ring-blue-600"
+    placeholder="••••••••"
+    required>
+
+  <span 
+    class="material-icons absolute right-3 top-3 text-slate-400 cursor-pointer"
+    (click)="togglePassword()">
+    {{ showPassword ? 'visibility_off' : 'visibility' }}
+  </span>
+</div>
+
+<!-- Password strength indicator -->
+<p class="text-sm mb-4">
+  Password Strength:
+  <span [ngClass]="passwordStrengthClass">
+    {{ passwordStrength || '—' }}
+  </span>
+</p>
+
 
         <!-- Account Type -->
         <label class="block text-slate-700 font-medium mb-2">Account Type</label>

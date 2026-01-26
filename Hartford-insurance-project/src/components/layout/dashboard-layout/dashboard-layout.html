@@ -11,60 +11,27 @@
         </div>
         <div>
           <h1 class="text-lg font-bold">InsureFlow</h1>
-          <p class="text-xs text-slate-400">Customer</p>
+          <p class="text-xs text-slate-400">{{ getRoleDisplayName() }}</p>
         </div>
       </div>
     </div>
 
     <!-- Menu -->
     <nav class="flex-1 p-4 space-y-2">
-
-      <a routerLink="dashboard"
-         routerLinkActive="bg-blue-600 text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
-        <span class="material-icons text-lg">grid_view</span>
-        Dashboard
-      </a>
-
-      <a routerLink="policies"
-         routerLinkActive="bg-blue-600 text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
-        <span class="material-icons text-lg">shopping_cart</span>
-        Browse Policies
-      </a>
-
-      <a routerLink="my-policies"
-         routerLinkActive="bg-blue-600 text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
-        <span class="material-icons text-lg">description</span>
-        My Policies
-      </a>
-
-      <a routerLink="claims"
-         routerLinkActive="bg-blue-600 text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
-        <span class="material-icons text-lg">assignment_turned_in</span>
-        Claims
-      </a>
-
-      <a routerLink="documents"
-         routerLinkActive="bg-blue-600 text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
-        <span class="material-icons text-lg">folder_open</span>
-        Documents
-      </a>
-
-      <a routerLink="profile"
-         routerLinkActive="bg-blue-600 text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
-        <span class="material-icons text-lg">person</span>
-        Profile
-      </a>
+      <ng-container *ngFor="let item of menuItems">
+        <a [routerLink]="item.route"
+           routerLinkActive="bg-blue-600 text-white"
+           [routerLinkActiveOptions]="{ exact: item.route === 'dashboard' }"
+           class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
+          <span class="material-icons text-lg">{{ item.icon }}</span>
+          {{ item.label }}
+        </a>
+      </ng-container>
     </nav>
 
     <!-- Logout -->
     <div class="p-4 border-t border-slate-800">
-      <button class="flex items-center gap-3 text-slate-400 hover:text-white transition">
+      <button (click)="logout()" class="flex items-center gap-3 text-slate-400 hover:text-white transition w-full">
         <span class="material-icons">logout</span>
         Logout
       </button>
@@ -82,11 +49,11 @@
 
       <div class="flex items-center gap-4">
         <div class="text-right">
-          <p class="text-sm font-medium">John Customer</p>
-          <p class="text-xs text-slate-500">Customer</p>
+          <p class="text-sm font-medium">{{ userName }}</p>
+          <p class="text-xs text-slate-500">{{ getRoleDisplayName() }}</p>
         </div>
         <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-          JC
+          {{ userInitials }}
         </div>
       </div>
     </header>

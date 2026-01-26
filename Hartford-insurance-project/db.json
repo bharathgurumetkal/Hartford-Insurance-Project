@@ -41,17 +41,24 @@
       "email": "abhi@gmail.com",
       "password": "abhi",
       "role": "customer"
+    },
+    {
+      "id": "e9d7",
+      "username": "GURUMETKAL BHARATH SIMHA REDDY",
+      "email": "bharath@gmail.com",
+      "password": "bharath",
+      "role": "customer"
     }
   ],
   "customers": [
     {
       "id": "1",
       "userId": 4,
-      "fullName": "John Doe",
+      "fullName": "John ",
       "phone": "9876543210",
       "address": "Hyderabad",
       "kycStatus": "Verified",
-      "communicationPreference": "Email",
+      "communicationPreference": "Phone",
       "policyIds": [
         1,
         2
@@ -73,6 +80,16 @@
       "id": "3",
       "userId": 6,
       "fullName": "abhi",
+      "phone": "",
+      "address": "",
+      "kycStatus": "Pending",
+      "communicationPreference": "Email",
+      "policyIds": []
+    },
+    {
+      "id": "63c3",
+      "userId": null,
+      "fullName": "GURUMETKAL BHARATH SIMHA REDDY",
       "phone": "",
       "address": "",
       "kycStatus": "Pending",
@@ -261,6 +278,29 @@
       "status": "Pending",
       "adminRemark": "Under Review",
       "documents": [],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-26"
+        }
+      ]
+    },
+    {
+      "id": "a882",
+      "policyId": "1",
+      "customerId": "1",
+      "claimId": "CLM-6910",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-26",
+      "amount": null,
+      "description": "this is test description for health claim",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "Change Detectors.pdf"
+      ],
       "timeline": [
         {
           "status": "Submitted",

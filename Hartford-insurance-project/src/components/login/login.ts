@@ -15,6 +15,7 @@ export class Login {
   email = '';
   password = '';
   showPassword = false;
+  
 
 
   constructor(private auth: Auth, private router: Router) {}
