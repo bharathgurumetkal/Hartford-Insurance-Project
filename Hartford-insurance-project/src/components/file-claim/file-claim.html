@@ -1,0 +1,78 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+  <div class="bg-white w-full max-w-lg rounded-xl p-6 shadow-xl">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-slate-900">File a New Claim</h2>
+      <button (click)="closeModal.emit()"
+        class="material-icons text-slate-400 hover:text-slate-700">close</button>
+    </div>
+    
+
+    <!-- Form -->
+    <div class="space-y-4">
+   
+
+      <!-- Policy -->
+      <label class="text-sm font-medium text-slate-700">Select Policy</label>
+      <select [(ngModel)]="selectedPolicyId"
+        (change)="onPolicyChange()"
+        class="w-full border border-slate-300 rounded-lg px-4 py-3 
+        bg-white text-slate-900 focus:ring-2 focus:ring-blue-600">
+        <option value="" disabled selected>Choose a policy</option>
+        @for (p of policies; track p.id) {
+          <option [value]="p.id">{{p.name}}</option>
+        }
+      </select>
+      @if (selectedPolicy) {
+  <div class="bg-slate-50 p-3 rounded-lg mb-4 text-sm text-slate-600">
+    <p><strong>Premium:</strong> ₹{{ selectedPolicy.premium }}</p>
+    <p><strong>Coverage:</strong> ₹{{ selectedPolicy.coverage }}</p>
+  </div>
+}
+
+
+      <!-- Claim Type -->
+      <label class="text-sm font-medium text-slate-700">Claim Type</label>
+      <input [(ngModel)]="claimType"
+        disabled
+        class="w-full border border-slate-300 rounded-lg px-4 py-3 
+        bg-slate-100 text-slate-900">
+<!--Damage cost-->
+<input type="number"
+       class="w-full border rounded-lg p-3 mb-3"
+       [(ngModel)]="damageCost"
+       (input)="calculateClaimAmount()"
+       placeholder="Enter damage/expense cost">
+
+       @if (calculatedAmount !== null) {
+  <div class="bg-green-50 p-3 rounded-lg mb-4 text-sm text-green-700">
+    <strong>Calculated Claim Amount:</strong> ₹{{ calculatedAmount }}
+  </div>
+}
+
+
+
+      <!-- Description -->
+      <label class="text-sm font-medium text-slate-700">Description</label>
+      <textarea [(ngModel)]="description" rows="3"
+        class="w-full border border-slate-300 rounded-lg px-4 py-3 
+        bg-white text-slate-900 focus:ring-2 focus:ring-blue-600"
+        placeholder="Describe your claim..."></textarea>
+
+      <!-- Upload -->
+      <label class="text-sm font-medium text-slate-700">Upload Documents</label>
+      <input type="file" multiple (change)="onFileSelect($event)"
+        class="w-full text-sm text-slate-600">
+
+      <!-- Submit -->
+      <button (click)="submitClaim()"
+        class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
+        Submit Claim
+      </button>
+
+    </div>
+
+  </div>
+</div>

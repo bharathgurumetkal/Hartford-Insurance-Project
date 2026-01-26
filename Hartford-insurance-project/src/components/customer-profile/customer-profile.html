@@ -1,0 +1,116 @@
+<div class="p-6">
+
+  <!-- Header Card -->
+  <div class="bg-gradient-to-r from-slate-900 via-blue-900 to-blue-600 
+              rounded-2xl p-6 text-white shadow-lg">
+
+    <div class="flex items-center gap-6">
+
+      <!-- Avatar -->
+      <div class="w-20 h-20 rounded-xl bg-white/20 flex items-center justify-center text-3xl font-bold">
+        {{ getInitials(customer?.fullName || '') }}
+      </div>
+
+      <!-- Info -->
+      <div>
+        <h2 class="text-3xl font-bold">{{ customer?.fullName }}</h2>
+        <p class="text-blue-100">{{ user?.email }}</p>
+
+        <div class="flex gap-4 text-sm text-blue-200 mt-2">
+          <span class="flex items-center gap-1">
+            <span class="material-icons text-sm">verified_user</span>
+            KYC {{ customer?.kycStatus }}
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="material-icons text-sm">badge</span>
+            ID: CUS-{{ customer?.id | number:'2.0' }}
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Personal Info -->
+  <div class="bg-white rounded-xl shadow p-6 mt-6">
+
+    <h3 class="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
+      <span class="material-icons text-blue-600">person</span>
+      Personal Information
+    </h3>
+
+    <div class="grid md:grid-cols-2 gap-6 text-slate-700">
+
+      <div>
+        <p class="text-sm text-slate-500">Full Name</p>
+        <p class="font-medium">{{ customer?.fullName }}</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-slate-500">Email Address</p>
+        <p class="font-medium">{{ user?.email }}</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-slate-500">Phone Number</p>
+        <p class="font-medium">{{ customer?.phone || 'Not Added' }}</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-slate-500">Address</p>
+        <p class="font-medium">{{ customer?.address || 'Not Added' }}</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-slate-500">Member Since</p>
+        <p class="font-medium">2025</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-slate-500">Communication Preference</p>
+        <p class="font-medium">{{ customer?.communicationPreference }}</p>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Communication Preferences -->
+  <div class="bg-white rounded-xl shadow p-6 mt-6">
+
+    <h3 class="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
+      <span class="material-icons text-blue-600">notifications</span>
+      Communication Preferences
+    </h3>
+
+    <div class="space-y-4">
+
+      <div>
+        <p class="text-sm text-slate-500 mb-2">Preferred Contact Method</p>
+        <div class="border border-slate-300 rounded-lg px-4 py-2 bg-slate-50">
+          {{ customer?.communicationPreference }}
+        </div>
+      </div>
+
+      <div class="flex gap-4 mt-3">
+
+        <div class="border border-blue-600 text-blue-700 rounded-lg px-4 py-2 flex items-center gap-2">
+          <span class="material-icons text-sm">check_circle</span>
+          Policy Updates
+        </div>
+
+        <div class="border border-blue-600 text-blue-700 rounded-lg px-4 py-2 flex items-center gap-2">
+          <span class="material-icons text-sm">check_circle</span>
+          Claim Notifications
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

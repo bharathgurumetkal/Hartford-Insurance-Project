@@ -1,0 +1,101 @@
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-slate-900 text-white flex flex-col">
+
+    <!-- Logo -->
+    <div class="p-6 border-b border-slate-800">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+          <span class="material-icons text-white text-2xl">shield</span>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold">InsureFlow</h1>
+          <p class="text-xs text-slate-400">Customer</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <nav class="flex-1 p-4 space-y-2">
+
+      <a routerLink="dashboard"
+         routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
+        <span class="material-icons text-lg">grid_view</span>
+        Dashboard
+      </a>
+
+      <a routerLink="policies"
+         routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
+        <span class="material-icons text-lg">shopping_cart</span>
+        Browse Policies
+      </a>
+
+      <a routerLink="my-policies"
+         routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
+        <span class="material-icons text-lg">description</span>
+        My Policies
+      </a>
+
+      <a routerLink="claims"
+         routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
+        <span class="material-icons text-lg">assignment_turned_in</span>
+        Claims
+      </a>
+
+      <a routerLink="documents"
+         routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
+        <span class="material-icons text-lg">folder_open</span>
+        Documents
+      </a>
+
+      <a routerLink="profile"
+         routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition">
+        <span class="material-icons text-lg">person</span>
+        Profile
+      </a>
+    </nav>
+
+    <!-- Logout -->
+    <div class="p-4 border-t border-slate-800">
+      <button class="flex items-center gap-3 text-slate-400 hover:text-white transition">
+        <span class="material-icons">logout</span>
+        Logout
+      </button>
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="flex-1 bg-slate-50">
+
+    <!-- TOP NAVBAR -->
+    <header class="bg-white border-b px-6 py-4 flex justify-between items-center">
+      <h2 class="text-xl font-semibold text-slate-900">Dashboard</h2>
+
+      <div class="flex items-center gap-4">
+        <div class="text-right">
+          <p class="text-sm font-medium">John Customer</p>
+          <p class="text-xs text-slate-500">Customer</p>
+        </div>
+        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+          JC
+        </div>
+      </div>
+    </header>
+
+    <!-- DYNAMIC CONTENT -->
+    <main class="p-6">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

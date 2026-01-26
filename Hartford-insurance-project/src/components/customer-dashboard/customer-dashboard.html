@@ -1,0 +1,75 @@
+<div class="p-8">
+
+  <!-- Header -->
+  <h1 class="text-3xl font-bold text-slate-900 mb-2">
+    Welcome back, {{ customerName }}
+  </h1>
+  <p class="text-slate-600 mb-8">
+    Manage your policies and track claims.
+  </p>
+
+  <!-- Stats Cards -->
+  <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+    <!-- Active Policies -->
+    <div class="bg-white p-6 rounded-xl shadow flex justify-between items-center">
+      <div>
+        <p class="text-slate-500">Active Policies</p>
+        <h2 class="text-3xl font-bold">{{ activePoliciesCount }}</h2>
+      </div>
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+        <span class="material-icons text-blue-600">description</span>
+      </div>
+    </div>
+
+    <!-- Pending Claims -->
+    <div class="bg-white p-6 rounded-xl shadow flex justify-between items-center">
+      <div>
+        <p class="text-slate-500">Pending Claims</p>
+        <h2 class="text-3xl font-bold">{{ pendingClaimsCount }}</h2>
+      </div>
+      <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+        <span class="material-icons text-orange-600">assignment</span>
+      </div>
+    </div>
+
+    <!-- Renewal Alerts -->
+    <div class="bg-white p-6 rounded-xl shadow flex justify-between items-center">
+      <div>
+        <p class="text-slate-500">Renewal Alerts</p>
+        <h2 class="text-3xl font-bold">{{ renewalAlertsCount }}</h2>
+      </div>
+      <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+        <span class="material-icons text-red-600">warning</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex gap-4">
+
+    <button
+      (click)="goToPolicies()"
+      class="bg-blue-900 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-blue-800 transition">
+
+      <span class="material-icons">shopping_cart</span>
+      Browse Policies
+    </button>
+
+    <button
+      (click)="openFileClaimModal()"
+      class="bg-slate-100 text-slate-800 px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-slate-200 transition">
+
+      <span class="material-icons">assignment</span>
+      File a Claim
+    </button>
+
+  </div>
+
+</div>
+
+<!-- File Claim Modal -->
+@if(showFileModal){
+  <app-file-claim (closeModal)="closeFileClaimModal()"></app-file-claim>
+}
