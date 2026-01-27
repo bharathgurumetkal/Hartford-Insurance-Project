@@ -1,0 +1,187 @@
+<div class="min-h-screen bg-slate-50 p-8" >
+    
+  
+    <!-- Header with Breadcrumbs & Action -->
+    <div class="max-w-7xl mx-auto mb-10">
+      <div class="flex items-center gap-2 text-sm text-slate-500 mb-4">
+          <a routerLink="/agent/customers" class="hover:text-blue-600 transition">Assigned Customers</a>
+          <span class="material-icons text-[16px]">chevron_right</span>
+          <span class="text-slate-800 font-medium">Customer Profile</span>
+      </div>
+
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div class="flex items-center gap-6">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white text-3xl font-bold shadow-lg shadow-blue-200">
+            {{ customer.fullName?.charAt(0) }}
+          </div>
+          <div>
+            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">{{ customer.fullName }}</h1>
+            <div class="flex items-center gap-3 mt-2">
+                <span class="px-2.5 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-bold uppercase tracking-wider">Customer ID: #{{ customer.id }}</span>
+                <span class="flex items-center gap-1 text-slate-500 text-sm">
+                    <span class="material-icons text-sm">location_on</span>
+                    {{ customer.address }}
+                </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <button (click)="viewClaims()" class="bg-white border border-slate-200 text-slate-700 px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:bg-slate-50 transition shadow-sm">
+                <span class="material-icons text-blue-600">assignment</span>
+                Review Claims
+            </button>
+            <a [routerLink]="['/agent/communication']" [queryParams]="{customerId: customer.id}" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:bg-blue-700 transition shadow-md shadow-blue-200">
+                <span class="material-icons">chat</span>
+                Send Message
+            </a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8">
+        
+        <!-- Sidebar Details -->
+        <div class="lg:col-span-4 space-y-8">
+            
+            <!-- Key Contact Card -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-900">Contact Details</h3>
+                    <span class="material-icons text-slate-400">info_outline</span>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                            <span class="material-icons text-[20px]">phone</span>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase">Mobile Number</p>
+                            <p class="text-slate-900 font-semibold">{{ customer.phone }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                            <span class="material-icons text-[20px]">mark_email_unread</span>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase">Preferred Contact</p>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-[10px] font-bold uppercase">{{ customer.communicationPreference }}</span>
+                                <p class="text-slate-500 text-xs">{{ customer.communicationPreference === 'Email' ? 'Digital First' : 'Direct Call' }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                            <span class="material-icons text-[20px]">shield</span>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase">KYC Verification</p>
+                            <div class="flex items-center gap-1.5 mt-0.5">
+                                <span class="material-icons text-sm" [ngClass]="{'text-green-500': customer.kycStatus === 'Verified', 'text-yellow-500': customer.kycStatus === 'Pending'}">
+                                    {{ customer.kycStatus === 'Verified' ? 'check_circle' : 'pending' }}
+                                </span>
+                                <span class="font-bold text-slate-900 text-sm">{{ customer.kycStatus }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+                <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="material-icons text-blue-600">attach_file</span> 
+                    Identification Docs
+                </h3>
+                <div class="space-y-3">
+                    @for (doc of documents; track doc.id) {
+                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl hover:bg-slate-100 transition cursor-pointer group">
+                            <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-blue-600 group-hover:scale-110 transition">
+                                <span class="material-icons text-[20px]">description</span>
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <p class="text-xs font-bold text-slate-700 truncate mb-0.5">{{ doc.fileName }}</p>
+                                <p class="text-[10px] text-slate-400 uppercase font-medium">{{ doc.uploadDate }}</p>
+                            </div>
+                            <span class="material-icons text-slate-300 group-hover:text-blue-600 transition">file_download</span>
+                        </div>
+                    }
+                    @if (documents.length === 0) {
+                        <div class="py-6 text-center border-2 border-dashed border-slate-100 rounded-3xl">
+                            <span class="material-icons text-slate-200 text-4xl mb-2">cloud_off</span>
+                            <p class="text-slate-400 text-xs font-medium">No documents uploaded</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content (Policies) -->
+        <div class="lg:col-span-8">
+            <div class="bg-white rounded-[32px] shadow-sm border border-slate-200 p-8 min-h-full">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-slate-900">Active Insurance Portfolio</h3>
+                        <p class="text-slate-500 text-sm">Protected by InsureFlow Premium Plans</p>
+                    </div>
+                    <div class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold ring-1 ring-blue-100">
+                        {{ policies.length }} ACTIVE {{ policies.length === 1 ? 'PLAN' : 'PLANS' }}
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-6">
+                    @for (policy of policies; track policy.id) {
+                        <div class="relative group bg-slate-50 rounded-3xl p-6 border border-slate-100 hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
+                            <!-- Policy Type Badge -->
+                            <div class="absolute -top-3 left-6">
+                                <span class="px-3 py-1 bg-slate-800 text-white rounded-lg text-[10px] font-black uppercase tracking-widest shadow-lg">
+                                    {{ policy.type }}
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-start mb-4 pt-2">
+                                <h4 class="font-extrabold text-lg text-slate-900 leading-tight group-hover:text-blue-700 transition">{{ policy.name }}</h4>
+                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                    <span class="material-icons text-[18px]">verified</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-slate-500 text-sm mb-6 line-clamp-2">{{ policy.description || 'Comprehensive coverage tailored to client needs with 24/7 support.' }}</p>
+                            
+                            <div class="grid grid-cols-2 gap-4 pt-5 border-t border-slate-100/60">
+                                <div>
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-0.5">Annual Premium</p>
+                                    <p class="font-extrabold text-slate-900">₹{{ policy.premium | number }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-0.5">Sum Insured</p>
+                                    <p class="font-extrabold text-blue-600">₹{{ policy.coverage || (policy.premium * 100) | number }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @if (!isLoading && policies.length === 0) {
+                    <div class="flex flex-col items-center justify-center py-20 text-center">
+                        <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+                            <span class="material-icons text-slate-200 text-5xl">folder_zip</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">No Active Portfolio</h4>
+                        <p class="text-slate-400 text-sm max-w-xs mx-auto">This customer currently doesn't have any active insurance policies assigned.</p>
+                        <button class="mt-8 text-blue-600 font-bold flex items-center gap-2 hover:underline">
+                            <span class="material-icons">add_circle_outline</span>
+                            Suggest New Policy
+                        </button>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+</div>

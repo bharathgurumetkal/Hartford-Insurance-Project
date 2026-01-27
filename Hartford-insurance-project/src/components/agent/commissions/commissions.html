@@ -1,0 +1,50 @@
+<div class="p-8">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-slate-900">My Commissions</h1>
+    <p class="text-slate-500">Track your earnings from policy sales.</p>
+  </div>
+
+  <!-- Summary Card -->
+  <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-8 text-white mb-8 shadow-lg">
+      <p class="text-blue-100 text-sm mb-1 uppercase tracking-wider font-semibold">Total Commission Earned</p>
+      <h2 class="text-5xl font-bold">₹{{ totalCommission | number }}</h2>
+      <p class="mt-2 text-blue-100 text-sm">Based on your commission rate of <strong>{{ agent?.commissionRate }}%</strong></p>
+  </div>
+
+  <!-- Breakdown Table -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+        <h3 class="font-bold text-slate-900">Commission Breakdown</h3>
+    </div>
+
+    <table class="w-full text-left text-sm text-slate-600">
+      <thead class="bg-white text-slate-500 font-medium border-b border-slate-100">
+        <tr>
+          <th class="px-6 py-3">Customer</th>
+          <th class="px-6 py-3">Policy</th>
+          <th class="px-6 py-3 text-right">Premium</th>
+          <th class="px-6 py-3 text-right">Rate</th>
+          <th class="px-6 py-3 text-right">Commission</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        @for (item of commissionBreakdown; track item.commission) {
+          <tr class="hover:bg-slate-50 transition">
+            <td class="px-6 py-4 font-medium text-slate-900">{{ item.customerName }}</td>
+            <td class="px-6 py-4">{{ item.policyName }}</td>
+            <td class="px-6 py-4 text-right">₹{{ item.premium | number }}</td>
+            <td class="px-6 py-4 text-right">{{ item.rate }}%</td>
+            <td class="px-6 py-4 text-right font-bold text-green-600">+₹{{ item.commission | number }}</td>
+          </tr>
+        }
+        @if (!isLoading && commissionBreakdown.length === 0) {
+            <tr>
+                <td colspan="5" class="px-6 py-8 text-center text-slate-400">
+                    No commissions recorded yet.
+                </td>
+            </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

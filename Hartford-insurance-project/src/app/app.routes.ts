@@ -16,6 +16,13 @@ import { PolicyManagement } from '../features/policy-management/policy-managemen
 import { SystemOverview } from '../components/system-overview/system-overview';
 import { AgentManagement } from '../features/agent-management/agent-management';
 import { ClaimReview } from '../features/claim-review/claim-review';
+import { AgentProfile } from './components/agent-profile/agent-profile';
+import { AgentDashboard } from '../components/agent/agent-dashboard/agent-dashboard';
+import { AssignedCustomers } from '../components/agent/assigned-customers/assigned-customers';
+import { AgentCustomerProfile } from '../components/agent/agent-customer-profile/agent-customer-profile';
+import { AgentManageClaims } from './components/agent-manage-claims/agent-manage-claims';
+import { CommunicationLog } from '../components/agent/communication-log/communication-log';
+import { Commissions } from '../components/agent/commissions/commissions';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -45,12 +52,14 @@ export const routes: Routes = [
         component: DashboardLayout,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', component: CustomerDashboard }, // Placeholder - replace with AgentDashboard
-            { path: 'profile', component: CustomerProfile }, // Placeholder - replace with AgentProfile
-            { path: 'customers', component: BrowsePolicies }, // Placeholder
-            { path: 'policies', component: MyPolicies }, // Placeholder
-            { path: 'claims', component: Claims }, // Placeholder
-            { path: 'commissions', component: Documents } // Placeholder
+            { path: 'dashboard', component: AgentDashboard },
+            { path: 'agent-profile', component: AgentProfile }, // Reusing generic profile
+            { path: 'customers', component: AssignedCustomers },
+            { path: 'customer/:id', component: AgentCustomerProfile },
+            { path: 'policies', component: BrowsePolicies }, // Agent view policies
+            { path: 'claims', component: AgentManageClaims },
+            { path: 'communication', component: CommunicationLog },
+            { path: 'commissions', component: Commissions }
         ]
     },
     

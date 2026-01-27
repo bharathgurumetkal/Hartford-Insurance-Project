@@ -1,0 +1,99 @@
+<div class="p-8">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-slate-900 mb-2">Welcome back, Agent</h1>
+      <p class="text-slate-500">Manage your customers and track your performance.</p>
+    </div>
+  
+    <!-- Stats Cards -->
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+  
+      <!-- Assigned Customers -->
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-between items-start">
+        <div>
+          <p class="text-slate-500 text-sm mb-1">Assigned Customers</p>
+          <h2 class="text-4xl font-bold text-slate-900">{{ customerCount }}</h2>
+          
+        </div>
+        <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
+          <span class="material-icons">people</span>
+        </div>
+      </div>
+  
+      <!-- Policies Sold -->
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-between items-start">
+        <div>
+          <p class="text-slate-500 text-sm mb-1">Policies Sold</p>
+          <h2 class="text-4xl font-bold text-slate-900">{{ policiesSold }}</h2>
+        
+        </div>
+        <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center text-green-600">
+          <span class="material-icons">description</span>
+        </div>
+      </div>
+  
+      <!-- Commission Earned -->
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-between items-start">
+        <div>
+          <p class="text-slate-500 text-sm mb-1">Commission Earned</p>
+          <h2 class="text-4xl font-bold text-slate-900">${{ totalCommission | number }}</h2>
+          
+        </div>
+        <div class="w-12 h-12 bg-yellow-50 rounded-lg flex items-center justify-center text-yellow-600">
+          <span class="material-icons">monetization_on</span>
+        </div>
+      </div>
+  
+    </div>
+  
+    <!-- Quick Actions -->
+    <div class="mb-8">
+      <h3 class="text-lg font-bold text-slate-900 mb-4">Quick Actions</h3>
+      <div class="flex gap-4">
+        <button (click)="viewCustomers()" class="bg-blue-900 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-blue-800 transition">
+          <span class="material-icons text-sm">people</span>
+          View Customers
+        </button>
+        <button (click)="viewCommunication()" class="bg-white border border-slate-300 text-slate-700 px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-slate-50 transition">
+          <span class="material-icons text-sm">chat</span>
+          Communication Log
+        </button>
+      </div>
+    </div>
+  
+    <!-- Recent Customers Table -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900">Recent Customers</h3>
+      </div>
+      
+      <table class="w-full text-left text-sm text-slate-600">
+        <thead class="bg-slate-50 text-slate-500 font-medium">
+          <tr>
+            <th class="px-6 py-3">Customer ID</th>
+            <th class="px-6 py-3">Name</th>
+            <th class="px-6 py-3">Phone</th>
+            <th class="px-6 py-3">Policies</th>
+            <th class="px-6 py-3 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          @for (customer of assignedCustomers.slice(0, 5); track customer.id) {
+            <tr class="hover:bg-slate-50 transition">
+              <td class="px-6 py-4">#{{ customer.id }}</td>
+              <td class="px-6 py-4 font-medium text-slate-900">{{ customer.fullName }}</td>
+              <td class="px-6 py-4">{{ customer.phone || 'N/A' }}</td>
+              <td class="px-6 py-4">{{ customer.policyIds?.length || 0 }}</td>
+              <td class="px-6 py-4 text-right">
+                <button (click)="contactCustomer(customer.id)" class="text-blue-600 hover:text-blue-800 flex items-center justify-end gap-1 ml-auto">
+                    <span class="material-icons text-sm">chat</span> Contact
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  
+  </div>

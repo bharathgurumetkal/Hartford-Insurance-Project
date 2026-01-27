@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Claims } from '../../services/claims';
+import { DocumentsService } from '../../services/documents';
 
 @Component({
   selector: 'app-file-claim',
@@ -30,12 +31,17 @@ calculatedAmount: number | null = null;
 
   customerId!: number;
 
-  constructor(private claimsService: Claims) {}
+  constructor(
+    private claimsService: Claims,
+    private documentsService: DocumentsService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     // Load policies
     this.claimsService.getPolicies((policies)=>{
       this.policies = policies;
+      this.cd.detectChanges();
     });
 
     // Get logged-in customer
@@ -43,6 +49,7 @@ calculatedAmount: number | null = null;
 
     this.claimsService.getCustomerByUserId(user.id,(customer)=>{
       this.customerId = customer.id;
+      this.cd.detectChanges();
     });
   }
 
@@ -101,9 +108,23 @@ calculatedAmount: number | null = null;
     };
 
     // Save to JSON Server
-    this.claimsService.fileClaim(newClaim,(res)=>{
+    this.claimsService.fileClaim(newClaim, (res) => {
+      
+      // Save documents to db.json
+      this.uploadedFileNames.forEach(fileName => {
+        const doc = {
+          customerId: this.customerId,
+          documentType: "Claim Document", // Generic type for now
+          fileName: fileName,
+          expiryDate: "N/A", // Not applicable for claim docs usually
+          uploadDate: new Date().toISOString().slice(0, 10)
+        };
+        this.documentsService.addDocument(doc, () => {});
+      });
+
       alert("Claim Filed Successfully!");
       this.closeModal.emit();
+      this.cd.detectChanges();
     });
   }
   

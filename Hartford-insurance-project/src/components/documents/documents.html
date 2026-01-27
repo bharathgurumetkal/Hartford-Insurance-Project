@@ -1,1 +1,59 @@
-<p>documents works!</p>
+<div class="p-8">
+
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-slate-900">My Documents</h1>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition">
+        <span class="material-icons">upload</span>
+        Upload Document
+      </button>
+    </div>
+  
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="flex justify-center py-12">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    }
+  
+    <!-- Empty State -->
+    @if (!isLoading && documents.length === 0) {
+      <div class="text-center py-12 bg-white rounded-xl shadow-sm border border-slate-200">
+        <span class="material-icons text-slate-300 text-6xl mb-4">folder_off</span>
+        <p class="text-slate-500 text-lg">No documents found.</p>
+        <p class="text-slate-400 text-sm">Upload a document to get started.</p>
+      </div>
+    }
+  
+    <!-- Documents Grid -->
+    @if (!isLoading && documents.length > 0) {
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (doc of documents; track doc.id) {
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                <span class="material-icons text-blue-600">{{ getIconForType(doc.documentType) }}</span>
+              </div>
+              <span class="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">
+                {{ doc.documentType }}
+              </span>
+            </div>
+            
+            <h3 class="font-semibold text-slate-900 mb-1 truncate" title="{{ doc.fileName }}">
+              {{ doc.fileName }}
+            </h3>
+            <p class="text-xs text-slate-500 mb-4">Uploaded on {{ doc.uploadDate | date:'mediumDate' }}</p>
+  
+            <div class="flex gap-2">
+              <button class="flex-1 text-sm bg-slate-50 text-slate-700 py-2 rounded hover:bg-slate-100 transition">
+                View
+              </button>
+              <button class="flex-1 text-sm bg-blue-50 text-blue-700 py-2 rounded hover:bg-blue-100 transition">
+                Download
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  
+  </div>
