@@ -12,9 +12,10 @@ import { Documents } from '../components/documents/documents';
 import { DashboardLayout } from '../components/layout/dashboard-layout/dashboard-layout';
 import { Claims } from '../components/claims/claims';
 import { Admin } from '../components/admin/admin';
-import { PolicyManagement } from '../components/policy-management/policy-management';
-import { SystemOverview } from '../features/system-overview/system-overview';
+import { PolicyManagement } from '../features/policy-management/policy-management';
+import { SystemOverview } from '../components/system-overview/system-overview';
 import { AgentManagement } from '../features/agent-management/agent-management';
+import { ClaimReview } from '../features/claim-review/claim-review';
 import { AgentProfile } from './components/agent-profile/agent-profile';
 import { AgentDashboard } from '../components/agent/agent-dashboard/agent-dashboard';
 import { AssignedCustomers } from '../components/agent/assigned-customers/assigned-customers';
@@ -36,7 +37,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: CustomerDashboard },
             { path: 'profile', component: CustomerProfile },
-            { path: 'policies', component: BrowsePolicies },
+            { path: 'policies', component: PolicyManagement },
             { path: 'my-policies', component: MyPolicies },
             { path: 'claims', component: Claims },
             { path: 'file-claim', component: FileClaim },
@@ -68,13 +69,14 @@ export const routes: Routes = [
         component: DashboardLayout,
         children: [
             { path: '', redirectTo: 'admin', pathMatch: 'full' },
-            { path: 'admin', component: Admin }, // Placeholder - replace with AdminDashboard
-            { path: 'profile', component: AgentProfile }, // Placeholder - replace with AdminProfile
+            { path: 'system-overview', component:SystemOverview }, 
+           
+            { path: 'profile', component: CustomerProfile }, // Placeholder - replace with AdminProfile
             { path: 'agent-management', component: AgentManagement}, // Placeholder
             { path: 'customer-management', component: MyPolicies }, // Placeholder
             { path: 'policy-management', component: PolicyManagement }, // Placeholder
-            { path: 'claims-review', component: Documents }, // Placeholder
-            { path: 'system-overview', component:SystemOverview }, // Placeholder
+            { path: 'claims-review', component: ClaimReview }, // Placeholder
+            // Placeholder
             { path: 'reports', component: MyPolicies } // Placeholder
         ]
     }

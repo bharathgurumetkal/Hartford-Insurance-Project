@@ -1,1 +1,157 @@
-<p>claim-review works!</p>
+<!-- Header -->
+<div class="mb-8">
+  <h1 class="text-2xl font-semibold text-gray-800">Claims Review</h1>
+</div>
+
+<!-- Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+
+   <app-stat-card
+    title="Total Claims"
+    [value]="claims.length"
+    icon="assignment"
+    iconBg="bg-blue-50"
+    iconColor="text-blue-600">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Pending Claims"
+    [value]="pendingClaims"
+    icon="hourglass_empty"
+    iconBg="bg-yellow-50"
+    iconColor="text-yellow-600">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Approved Claims"
+    [value]="approvedClaims"
+    icon="check_circle"
+    iconBg="bg-green-50"
+    iconColor="text-green-600">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Rejected Claims"
+    [value]="rejectedClaims"
+    icon="cancel"
+    iconBg="bg-red-50"
+    iconColor="text-red-600">
+  </app-stat-card>
+</div>
+
+<!-- Data Table -->
+<app-data-table
+  [columns]="tableColumns"
+  [keys]="tableKeys"
+  [data]="claims"
+  [actionsTemplate]="actionsTpl">
+</app-data-table>
+
+<!-- Actions Template -->
+<ng-template #actionsTpl let-row>
+  <div class="flex gap-2 justify-end">
+
+    <button
+      class="px-3 py-1 text-xs rounded bg-blue-50 text-blue-600"
+      (click)="viewClaim(row)">
+      View
+    </button>
+
+    <button
+      *ngIf="row.status === 'Pending'"
+      class="px-3 py-1 text-xs rounded bg-green-50 text-green-600"
+      (click)="approveClaim(row)">
+      Approve
+    </button>
+
+    <button
+      *ngIf="row.status === 'Pending'"
+      class="px-3 py-1 text-xs rounded bg-red-50 text-red-600"
+      (click)="rejectClaim(row)">
+      Reject
+    </button>
+
+  </div>
+</ng-template>
+
+<!-- ================= Claim Details Modal ================= -->
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-gray-800">
+        Claim Details
+      </h2>
+      <button
+        class="text-gray-400 hover:text-gray-600"
+        (click)="closeModal()">
+        ✕
+      </button>
+    </div>
+
+    
+    <div *ngIf="selectedClaim" class="space-y-3 text-sm">
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Claim ID</span>
+        <span class="font-medium">{{ selectedClaim.id }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Policy ID</span>
+        <span class="font-medium">{{ selectedClaim.policyId }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Customer</span>
+        <span class="font-medium">{{ selectedClaim.customerId }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Amount</span>
+        <span class="font-medium">₹ {{ selectedClaim.amount }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Status</span>
+        <span class="font-medium">{{ selectedClaim.status }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Submitted Date</span>
+        <span class="font-medium">{{ selectedClaim.date }}</span>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-6 flex justify-end gap-3">
+
+      <button
+        class="px-4 py-2 text-sm rounded bg-gray-100 text-gray-700"
+        (click)="closeModal()">
+        Close
+      </button>
+
+      <button
+        *ngIf="selectedClaim?.status === 'Pending'"
+        class="px-4 py-2 text-sm rounded bg-green-600 text-white"
+        (click)="approveClaim(selectedClaim!)">
+        Approve
+      </button>
+
+      <button
+        *ngIf="selectedClaim?.status === 'Pending'"
+        class="px-4 py-2 text-sm rounded bg-red-600 text-white"
+        (click)="rejectClaim(selectedClaim!)">
+        Reject
+      </button>
+
+    </div>
+
+  </div>
+</div>

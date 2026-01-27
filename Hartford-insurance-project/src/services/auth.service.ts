@@ -34,6 +34,21 @@ export class AuthService {
     return this.http.get("http://localhost:3000/documents")
   }
 
+  deleteAgent(id: number) {
+  return this.http.delete(`http://localhost:3000/agents/${id}`);
+}
+
+deletePolicy(id:number){
+  return this.http.delete(`http://localhost:3000/policies/${id}`)
+}
+
+updateClaimStatus(id: string, status: 'Approved' | 'Rejected') {
+  return this.http.patch(
+    `http://localhost:3000/claims/${id}`,
+    { status }
+  );
+}
+
 
 
 

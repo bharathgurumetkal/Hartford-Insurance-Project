@@ -7,8 +7,13 @@ import { CommonModule } from "@angular/common";
   templateUrl: './stat-card.html',
 })
 export class StatCardComponent {
-  @Input() title = '';
-  @Input() value: number | string = 0;
-  @Input() icon = '';
-  @Input() color: 'blue' | 'green' | 'orange' | 'purple'| 'red'  = 'blue';
+  @Input() title!: string;
+@Input() value!: string | number;
+@Input() trend!: string;           // "+5% from last month"
+@Input() icon!: string;            // material icon name
+
+@Input() iconBg!: string;           // e.g. 'bg-blue-50'
+@Input() iconColor!: string;        // e.g. 'text-blue-600'
+@Input() trendColor!: string;       // e.g. 'text-green-600'
+
 }

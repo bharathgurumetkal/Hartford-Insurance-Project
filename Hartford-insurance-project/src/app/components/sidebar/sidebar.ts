@@ -17,8 +17,9 @@ export class SidebarComponent  {
   menu:any=[];
 
   get roleColor():string{
+    
     switch(this.role){
-      case 'admin':return 'bg-blue-200';
+      case 'admin':return 'bg-blue-600';
       case 'agent':return 'bg-green-200';
       case 'client':return 'bg-yellow-200';
       default:return 'bg-gray-200';

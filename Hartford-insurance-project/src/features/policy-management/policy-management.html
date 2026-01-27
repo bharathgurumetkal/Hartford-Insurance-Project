@@ -1,1 +1,92 @@
-<p>policy-management works!</p>
+<div class="max-w-6xl mx-auto p-6">
+
+  <h2 class="text-3xl font-bold mb-6">Policy Administration</h2>
+
+
+  <div class="bg-white p-6 rounded-2xl shadow mb-8">
+    <h3 class="text-xl font-semibold mb-4">
+      {{ isEditMode ? 'Edit Policy' : 'Add New Policy' }}
+    </h3>
+
+    <div class="grid grid-cols-2 gap-4">
+      <input placeholder="Policy Name"
+             [(ngModel)]="form.name"
+             class="p-3 border rounded-xl" />
+
+      <input placeholder="Type (Health / Vehicle)"
+             [(ngModel)]="form.type"
+             class="p-3 border rounded-xl" />
+
+      <input type="number"
+             placeholder="Premium"
+             [(ngModel)]="form.premium"
+             class="p-3 border rounded-xl" />
+
+      <input type="number"
+             placeholder="Coverage"
+             [(ngModel)]="form.coverage"
+             class="p-3 border rounded-xl" />
+
+      <input type="number"
+             placeholder="Duration (days)"
+             [(ngModel)]="form.durationDays"
+             class="p-3 border rounded-xl" />
+    </div>
+
+    <div class="mt-4 flex gap-3">
+      <button
+        class="bg-blue-600 text-white px-6 py-2 rounded-xl"
+        (click)="isEditMode ? updatePolicy() : addPolicy()">
+        {{ isEditMode ? 'Update' : 'Add Policy' }}
+      </button>
+
+      <button
+        *ngIf="isEditMode"
+        class="bg-gray-400 text-white px-6 py-2 rounded-xl"
+        (click)="resetForm()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="bg-white rounded-2xl shadow overflow-hidden">
+    <table class="w-full border-collapse">
+      <thead class="bg-slate-100">
+        <tr>
+          <th class="p-3 text-left">ID</th>
+          <th class="p-3 text-left">Name</th>
+          <th class="p-3 text-left">Type</th>
+          <th class="p-3 text-left">Premium</th>
+          <th class="p-3 text-left">Coverage</th>
+          <th class="p-3 text-left">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (policy of policies; track policy.id) {
+          <tr class="border-t">
+            <td class="p-3">{{ policy.id }}</td>
+            <td class="p-3">{{ policy.name }}</td>
+            <td class="p-3">{{ policy.type }}</td>
+            <td class="p-3">₹{{ policy.premium }}</td>
+            <td class="p-3">₹{{ policy.coverage }}</td>
+            <td class="p-3 flex gap-2">
+              <button
+                class="bg-yellow-500 text-white px-3 py-1 rounded"
+                (click)="editPolicy(policy)">
+                Edit
+              </button>
+              <button
+                class="bg-red-500 text-white px-3 py-1 rounded"
+                (click)="deletePolicy(policy.id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

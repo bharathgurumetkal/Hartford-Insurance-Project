@@ -1,7 +1,7 @@
 <div class="flex min-h-screen">
 
   <!-- SIDEBAR -->
-  <aside class="w-64 bg-slate-900 text-white flex flex-col">
+  <aside class="w-64 text-white flex flex-col" [ngClass]="roleColor" >
 
     <!-- Logo -->
     <div class="p-6 border-b border-slate-800">
@@ -52,7 +52,7 @@
           <p class="text-sm font-medium">{{ userName }}</p>
           <p class="text-xs text-slate-500">{{ getRoleDisplayName() }}</p>
         </div>
-        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+        <div class="w-10 h-10  rounded-full flex items-center justify-center text-white font-bold" [ngClass]="roleColor">
           {{ userInitials }}
         </div>
       </div>
