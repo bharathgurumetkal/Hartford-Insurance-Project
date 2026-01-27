@@ -1,0 +1,192 @@
+<div class="p-8">
+    <div class="mb-8 flex justify-between items-end">
+      <div>
+          <h1 class="text-3xl font-bold text-slate-900 mb-2">Manage Claims</h1>
+          <p class="text-slate-500">Review, approve, or reject customer claims.</p>
+      </div>
+      <div class="text-sm text-slate-500">
+          Showing <span class="font-bold text-slate-900">{{ claims.length }}</span> claims
+      </div>
+    </div>
+  
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <table class="w-full text-left text-sm text-slate-600">
+        <thead class="bg-slate-50 text-slate-500 font-medium">
+          <tr>
+            <th class="px-6 py-4">Claim ID</th>
+            <th class="px-6 py-4">Policy</th>
+            <th class="px-6 py-4">Amount</th>
+            <th class="px-6 py-4">Status</th>
+            <th class="px-6 py-4">Type</th>
+             <th class="px-6 py-4">Date</th>
+            <th class="px-6 py-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          @for (claim of claims; track claim.id) {
+            <tr class="hover:bg-slate-50 transition group">
+              <td class="px-6 py-4 font-semibold text-slate-900">{{ claim.claimId }}</td>
+              <td class="px-6 py-4">
+                  <div class="flex flex-col">
+                      <span>{{ claim.policyName }}</span>
+                      <span class="text-xs text-slate-400">ID: {{ claim.policyId }}</span>
+                  </div>
+              </td>
+              <td class="px-6 py-4 font-bold text-slate-900">₹{{ claim.amount | number }}</td>
+              <td class="px-6 py-4">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1"
+                  [ngClass]="{
+                    'bg-green-50 text-green-700 border border-green-200': claim.status === 'Approved',
+                    'bg-red-50 text-red-700 border border-red-200': claim.status === 'Rejected',
+                    'bg-blue-50 text-blue-700 border border-blue-200': claim.status === 'Pending'
+                  }">
+                  <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                    'bg-green-500': claim.status === 'Approved',
+                    'bg-red-500': claim.status === 'Rejected',
+                    'bg-blue-500': claim.status === 'Pending'
+                  }"></span>
+                  {{ claim.status }}
+                </span>
+              </td>
+              <td class="px-6 py-4">{{ claim.type }}</td>
+              <td class="px-6 py-4 text-xs">{{ claim.date }}</td>
+              <td class="px-6 py-4 text-right">
+                <button (click)="openViewModal(claim)" class="text-blue-600 font-medium hover:text-blue-800 transition">
+                    View Details
+                </button>
+              </td>
+            </tr>
+          }
+          @if (claims.length === 0) {
+              <tr>
+                  <td colspan="7" class="px-6 py-12 text-center">
+                      <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
+                          <span class="material-icons text-3xl">assignment_turned_in</span>
+                      </div>
+                      <p class="text-slate-500 font-medium">No claims found.</p>
+                      <p class="text-slate-400 text-sm">Everything is clear for now.</p>
+                  </td>
+              </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- View Claim Modal -->
+  @if (viewClaimModalOpen && selectedClaim) {
+      <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm p-4 animate-fade-in">
+          <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden animate-scale-in">
+              
+              <!-- Modal Header -->
+              <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                  <div>
+                      <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                          Claim Details
+                          <span class="text-sm font-normal text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded">{{ selectedClaim.claimId }}</span>
+                      </h2>
+                  </div>
+                  <button (click)="closeViewModal()" class="w-8 h-8 rounded-full bg-white hover:bg-slate-100 flex items-center justify-center transition text-slate-400 hover:text-slate-600">
+                      <span class="material-icons text-lg">close</span>
+                  </button>
+              </div>
+
+              <!-- Modal Content -->
+              <div class="p-6 max-h-[70vh] overflow-y-auto">
+                  
+                  <!-- Status Banner -->
+                  <div class="mb-6 p-4 rounded-xl flex justify-between items-center"
+                    [ngClass]="{
+                        'bg-green-50 text-green-800 border border-green-100': selectedClaim.status === 'Approved',
+                        'bg-red-50 text-red-800 border border-red-100': selectedClaim.status === 'Rejected',
+                        'bg-blue-50 text-blue-800 border border-blue-100': selectedClaim.status === 'Pending'
+                    }">
+                      <div class="flex items-center gap-3">
+                          <span class="material-icons text-2xl">
+                              {{ selectedClaim.status === 'Approved' ? 'check_circle' : (selectedClaim.status === 'Rejected' ? 'cancel' : 'pending') }}
+                          </span>
+                          <div>
+                              <p class="font-bold text-lg">Status: {{ selectedClaim.status }}</p>
+                              <p class="text-sm opacity-80">{{ selectedClaim.adminRemark || 'No remarks provided.' }}</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 gap-6 mb-6">
+                      <!-- Policy Info -->
+                      <div>
+                          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Policy Information</h3>
+                          <div class="bg-slate-50 p-4 rounded-xl space-y-2 border border-slate-100">
+                              <p class="text-sm text-slate-500">Policy Name</p>
+                              <p class="font-medium text-slate-900">{{ selectedClaim.policyName }}</p>
+                              <div class="h-px bg-slate-200 my-2"></div>
+                              <p class="text-sm text-slate-500">Type</p>
+                              <p class="font-medium text-slate-900">{{ selectedClaim.type }}</p>
+                          </div>
+                      </div>
+
+                      <!-- Claim Info -->
+                      <div>
+                          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Claim Information</h3>
+                          <div class="bg-slate-50 p-4 rounded-xl space-y-2 border border-slate-100">
+                              <p class="text-sm text-slate-500">Amount Claimed</p>
+                              <p class="font-bold text-xl text-slate-900">₹{{ selectedClaim.amount | number }}</p>
+                              <div class="h-px bg-slate-200 my-2"></div>
+                              <p class="text-sm text-slate-500">Date Filed</p>
+                              <p class="font-medium text-slate-900">{{ selectedClaim.date }}</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Description -->
+                  @if (selectedClaim.description) {
+                      <div class="mb-6">
+                          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Description</h3>
+                          <p class="text-slate-700 bg-slate-50 p-4 rounded-xl text-sm leading-relaxed border border-slate-100">
+                              {{ selectedClaim.description }}
+                          </p>
+                      </div>
+                  }
+
+                  <!-- Documents -->
+                  <div class="mb-6">
+                      <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Attached Documents</h3>
+                      @if (selectedClaim.documents && selectedClaim.documents.length > 0) {
+                          <div class="flex gap-2 flex-wrap">
+                              @for (doc of selectedClaim.documents; track doc) {
+                                  <div class="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition cursor-pointer">
+                                      <span class="material-icons text-sm">description</span>
+                                      {{ doc }}
+                                  </div>
+                              }
+                          </div>
+                      } @else {
+                          <p class="text-slate-400 text-sm italic">No documents attached.</p>
+                      }
+                  </div>
+
+              </div>
+
+              <!-- Modal Footer -->
+               <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-end gap-3">
+                  <button (click)="closeViewModal()" class="px-5 py-2.5 rounded-lg text-slate-600 font-medium hover:bg-slate-200 transition">
+                      Close
+                  </button>
+                  
+                  @if (selectedClaim.status === 'Pending') {
+                      <button (click)="updateStatus(selectedClaim, 'Rejected')" class="px-5 py-2.5 rounded-lg border border-red-200 text-red-700 font-medium hover:bg-red-50 transition flex items-center gap-2">
+                          <span class="material-icons text-sm">close</span> Reject
+                      </button>
+                      <button (click)="updateStatus(selectedClaim, 'Approved')" class="px-5 py-2.5 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition shadow-lg shadow-green-600/20 flex items-center gap-2">
+                          <span class="material-icons text-sm">check</span> Approve
+                      </button>
+                  } @else {
+                      <button (click)="updateStatus(selectedClaim, selectedClaim.status)" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition flex items-center gap-2">
+                          <span class="material-icons text-sm">edit_note</span> Update Remark/Status
+                      </button>
+                  }
+               </div>
+
+          </div>
+      </div>
+  }

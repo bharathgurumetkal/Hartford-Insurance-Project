@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserData } from '../../services/user-data';
 import { Router } from '@angular/router';
@@ -20,7 +20,8 @@ export class CustomerProfile implements OnInit {
 
   constructor(
     private userData: UserData,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -36,6 +37,7 @@ export class CustomerProfile implements OnInit {
       this.customer.communicationPreference ||= 'Email';
       this.customer.kycStatus ||= 'Pending';
       this.isLoading = false;
+      this.cd.detectChanges();
     });
   }
 
@@ -51,6 +53,7 @@ export class CustomerProfile implements OnInit {
     this.userData.updateCustomer(this.customer,()=>{
       alert("Profile Updated Successfully!");
       this.editMode = false;
+      this.cd.detectChanges();
     });
   }
 

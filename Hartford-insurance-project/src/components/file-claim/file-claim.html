@@ -39,12 +39,14 @@
         disabled
         class="w-full border border-slate-300 rounded-lg px-4 py-3 
         bg-slate-100 text-slate-900">
-<!--Damage cost-->
-<input type="number"
-       class="w-full border rounded-lg p-3 mb-3"
-       [(ngModel)]="damageCost"
-       (input)="calculateClaimAmount()"
-       placeholder="Enter damage/expense cost">
+      <!-- Claim Amount -->
+      <label class="text-sm font-medium text-slate-700">Claim Amount (₹)</label>
+      <input type="number"
+             class="w-full border border-slate-300 rounded-lg px-4 py-3 
+             bg-white text-slate-900 focus:ring-2 focus:ring-blue-600 mb-3"
+             [(ngModel)]="damageCost"
+             (input)="calculateClaimAmount()"
+             placeholder="Enter amount">
 
        @if (calculatedAmount !== null) {
   <div class="bg-green-50 p-3 rounded-lg mb-4 text-sm text-green-700">

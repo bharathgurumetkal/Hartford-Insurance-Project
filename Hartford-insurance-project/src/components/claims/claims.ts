@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Claims as ClaimsService } from '../../services/claims';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -27,7 +27,10 @@ export class Claims implements OnInit {
 
   customerId!: number;
 
-  constructor(private claimsService: ClaimsService) {}
+  constructor(
+    private claimsService: ClaimsService,
+    private cd: ChangeDetectorRef
+  ) {}
 
 ngOnInit(): void {
   const user = JSON.parse(localStorage.getItem('user')!);
@@ -38,6 +41,7 @@ ngOnInit(): void {
 
     // ✅ Load claims immediately
     this.loadClaims();
+    this.cd.detectChanges();
   });
 }
 
@@ -59,6 +63,7 @@ ngOnInit(): void {
 
     // ✅ Ensure active tab is All
     this.activeTab = 'All';
+    this.cd.detectChanges();
   });
 }
 

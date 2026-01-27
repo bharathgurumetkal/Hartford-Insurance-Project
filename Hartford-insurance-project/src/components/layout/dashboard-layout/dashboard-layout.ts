@@ -33,10 +33,10 @@ export class DashboardLayout implements OnInit {
     agent: [
       { label: 'Dashboard', route: 'dashboard', icon: 'grid_view' },
       { label: 'Assigned Customers', route: 'customers', icon: 'people' },
-      { label: 'Policies', route: 'policies', icon: 'shopping_cart' },
-      { label: 'Claims', route: 'claims', icon: 'assignment' },
+      { label: 'Manage Claims', route: 'claims', icon: 'assignment' },
+      { label: 'Communication Log', route: 'communication', icon: 'chat' },
       { label: 'Commissions', route: 'commissions', icon: 'monetization_on' },
-      { label: 'Profile', route: 'profile', icon: 'person' }
+      { label: 'My Profile', route: 'agent-profile', icon: 'person' }
     ],
     admin: [
       { label: 'Dashboard', route: 'admin', icon: 'grid_view' },
