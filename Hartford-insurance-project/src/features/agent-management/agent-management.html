@@ -1,13 +1,26 @@
 <div class="flex items-center justify-between mb-6">
-  <h1 class="text-xl font-semibold text-gray-800">
+  <h1 class="text-3xl font-bold text-black-800 ml-3">
     Agent Management
   </h1>
 
+  
   <button
     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
     (click)="openAddModal()">
     + Add Agent
   </button>
+</div>
+
+<div class="flex flex-wrap ">
+  <input type="text" [(ngModel)]="search" placeholder="search agent..." class="mb-2 p-2 bg-white border dorder-gray-300 w-64 rounded-xl" (input)="searchAgent()">
+  <select
+  class="ml-7 mb-2 p-2 bg-white border dorder-gray-300 w-64 rounded-xl"
+  (change)="filterByPolicyCount($any($event.target).value)">
+  <option value="0">All Agents</option>
+  <option value="1">1+ Policies</option>
+  <option value="3">3+ Policies</option>
+  <option value="5">5+ Policies</option>
+</select>
 </div>
 
 <app-data-table
@@ -17,10 +30,38 @@
   [actionsTemplate]="actionsTpl">
 </app-data-table>
 
+
+
+
+<div *ngIf="selectedAgent">
+  <app-agent-details
+    [agent]="selectedAgent"
+    [customers]="customers"
+    [policies]="policies">
+  </app-agent-details>
+</div>
+
+<ng-template #actionsTpl let-agent>
+  <div class="flex gap-2">
+    <button
+      class="px-2 py-1 text-sm rounded bg-blue-100 text-blue-700"
+      (click)="selectedAgent = agent">
+      View
+    </button>
+
+    <button
+      class="px-2 py-1 text-sm rounded bg-red-100 text-red-700"
+      (click)="openDeleteModal(agent.id)">
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+
+
 <ng-template #actionsTpl let-agent>
   <button
-    class="px-3 py-1 text-sm font-medium text-red-600
-           hover:bg-red-50 rounded-md transition"
+    class="inline-flex px-3 py-1 text-sm font-medium text-red-600 rounded-lg hover:bg-red-500 hover:rounded-lg hover:text-white hover:ring-1 hover:ring-red-300 transition "
     (click)="openDeleteModal(agent.id)">
     Delete
   </button>
@@ -32,7 +73,7 @@
   title="Delete Agent"
   message="Are you sure you want to delete this agent? This action cannot be undone."
   (confirm)="confirmDelete()"
-  (cancel)="showConfirmModal = false">
+  (cancel)="closeDeleteModel()">
 </app-confirm-modal>
 
 <app-add-agent-modal
@@ -40,3 +81,6 @@
   (close)="showAddModal = false"
   (agentAdded)="onAgentAdded()">
 </app-add-agent-modal>
+
+
+

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
 import { Auth } from '../../../auth/services/auth';
 
+
 interface MenuItem {
   label: string;
   route: string;
@@ -20,6 +21,7 @@ export class DashboardLayout implements OnInit {
   userName: string = '';
   userInitials: string = '';
   menuItems: MenuItem[] = [];
+ 
 
   private readonly menuConfig: { [key: string]: MenuItem[] } = {
     customer: [
@@ -39,12 +41,10 @@ export class DashboardLayout implements OnInit {
       { label: 'Profile', route: 'profile', icon: 'person' }
     ],
     admin: [
-      { label: 'Dashboard', route: 'admin', icon: 'grid_view' },
+            { label: 'System Overview', route: 'system-overview', icon: 'dashboard_customize' },
       { label: 'Agent Management', route: 'agent-management', icon: 'people' },
-      { label: 'Customer Management', route: 'customer-management', icon: 'group' },
       { label: 'Policy Management', route: 'policy-management', icon: 'shopping_cart' },
       { label: 'Claims Review', route: 'claims-review', icon: 'assignment_turned_in' },
-      { label: 'System Overview', route: 'system-overview', icon: 'dashboard_customize' },
       { label: 'Reports', route: 'reports', icon: 'assessment' }
     ]
   };
@@ -55,6 +55,8 @@ export class DashboardLayout implements OnInit {
     this.userRole = this.auth.getRole();
     const user = this.auth.getUser();
 
+    console.log(this.userRole);
+
     if (!this.userRole || !user) {
       this.router.navigate(['/login']);
       return;
@@ -64,6 +66,25 @@ export class DashboardLayout implements OnInit {
     this.userInitials = this.getInitials(this.userName);
     this.menuItems = this.menuConfig[this.userRole] || [];
   }
+
+    get roleColor():string{
+    switch(this.userRole){
+      case 'admin':return 'bg-slate-900';
+      case 'agent':return 'bg-green-900';
+      case 'client':return 'bg-yellow-200';
+      default:return 'bg-gray-200';
+    }
+  }
+   
+ get routeColor():string{
+    switch(this.userRole){
+      case 'admin':return 'bg-slate-500';
+      case 'agent':return 'bg-green-200';
+      case 'client':return 'bg-yellow-200';
+      default:return 'bg-gray-200';
+    }
+  }
+
 
   private getInitials(name: string): string {
     return name

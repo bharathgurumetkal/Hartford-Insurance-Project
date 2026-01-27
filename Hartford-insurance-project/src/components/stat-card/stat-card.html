@@ -1,42 +1,31 @@
 <div
-  class="relative overflow-hidden rounded-2xl p-6 border bg-white
-         shadow-sm hover:shadow-lg transition">
+  class="bg-white p-6 rounded-xl shadow-sm border border-slate-100
+         flex justify-between items-start">
 
-
+  <!-- Left content -->
   <div>
-    <p class="text-sm text-gray-500 mb-2 uppercase tracking-wide">
+    <p class="text-slate-500 text-sm mb-1">
       {{ title }}
     </p>
-    <p class="text-3xl font-bold text-gray-900">
+
+    <h2 class="text-4xl font-bold text-slate-900">
       {{ value }}
+    </h2>
+
+    <p
+      class="text-xs font-medium mt-2"
+      [ngClass]="trendColor">
+      {{ trend }}
     </p>
   </div>
 
-  
+  <!-- Right icon -->
   <div
-    class="absolute right-4 top-4 w-12 h-12 rounded-xl flex items-center justify-center text-white"
-    [ngClass]="{
-      'bg-blue-500': color === 'blue',
-      'bg-green-500': color === 'green',
-      'bg-orange-500': color === 'orange',
-      'bg-purple-500': color === 'purple',
-      'bg-red-500': color === 'red'
-    }">
-    <span class="text-lg font-semibold">
-      {{ title.charAt(0) }}
+    class="w-12 h-12 rounded-lg flex items-center justify-center"
+    [ngClass]="iconBg">
+    <span class="material-icons" [ngClass]="iconColor">
+      {{ icon }}
     </span>
-  </div>
-
-
-  <div
-    class="absolute bottom-0 left-0 h-1 w-full"
-    [ngClass]="{
-      'bg-blue-500': color === 'blue',
-      'bg-green-500': color === 'green',
-      'bg-orange-500': color === 'orange',
-      'bg-purple-500': color === 'purple',
-      'bg-red-500': color === 'red'
-    }">
   </div>
 
 </div>

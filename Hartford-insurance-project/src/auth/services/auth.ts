@@ -5,6 +5,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class Auth {
+  deleteAgent(id: number) {
+  return this.http.delete(`http://localhost:3000/agents/${id}`);
+}
+
 
   private apiUsers = 'http://localhost:3000/users';
   private apiCustomers = 'http://localhost:3000/customers';

@@ -62,6 +62,13 @@
       "email": "anandch@gmail.com",
       "password": "Anand@123",
       "role": "customer"
+    },
+    {
+      "id": "0315",
+      "username": "Anand Kumar",
+      "email": "anandch118@gmail.com",
+      "password": "Anand@123",
+      "role": "agent"
     }
   ],
   "customers": [
@@ -123,16 +130,35 @@
   ],
   "agents": [
     {
-      "id": "2",
-      "userId": 3,
+      "id": "a1",
+      "email": "anandch119@gmail.com",
+      "commissionRate": 10,
       "assignedCustomerIds": [
-        2
+        "1"
       ],
-      "commissionRate": 12
+      "status": "Active"
     },
     {
-      "id": "b6f9",
-      "userId": 8,
+      "id": "a2",
+      "email": "rohit@gmail.com",
+      "commissionRate": 12,
+      "assignedCustomerIds": [
+        "2"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "a3",
+      "email": "abhi@gmail.com",
+      "commissionRate": 8,
+      "assignedCustomerIds": [
+        "3"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "5418",
+      "userId": 315,
       "assignedCustomerIds": [],
       "commissionRate": 10
     }
@@ -176,7 +202,7 @@
       "type": "Health",
       "date": "2025-12-15",
       "amount": 50000,
-      "status": "Pending",
+      "status": "Approved",
       "adminRemark": "Under Review",
       "timeline": [
         {
@@ -229,7 +255,7 @@
       "type": "Health",
       "date": "2026-01-26",
       "amount": 60000,
-      "status": "Pending",
+      "status": "Rejected",
       "adminRemark": "Under Review",
       "documents": [],
       "timeline": [
@@ -250,7 +276,7 @@
       "date": "2026-01-26",
       "amount": 80000,
       "description": "this is a test one",
-      "status": "Pending",
+      "status": "Approved",
       "adminRemark": "Under Review",
       "documents": [
         "Change Detectors.pdf"
@@ -327,6 +353,25 @@
           "status": "Submitted",
           "message": "Claim submitted successfully",
           "date": "2026-01-26"
+        }
+      ]
+    },
+    {
+      "id": "9fd8",
+      "policyId": null,
+      "customerId": "63c3",
+      "claimId": "CLM-8792",
+      "date": "2026-01-27",
+      "amount": null,
+      "description": "",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-27"
         }
       ]
     }
