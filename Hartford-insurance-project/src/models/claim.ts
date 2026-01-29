@@ -2,6 +2,7 @@ export interface Claim {
   id: string;
   policyId:number,
   customerId:number,
+  customerName:string,
   claimId:string,
   policyName: string;
   type: string;

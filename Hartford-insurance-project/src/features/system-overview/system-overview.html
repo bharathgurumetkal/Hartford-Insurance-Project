@@ -1,1 +1,131 @@
-<h1>system overview</h1>
+<!-- Header -->
+<div class="mb-8">
+  <h1 class="text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
+  <p class="text-sm text-gray-500 mt-1">
+    System overview & recent activity
+  </p>
+</div>
+
+<!-- Top Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+  <app-stat-card
+    title="Total Policies"
+    [value]="stats.policies"
+    trend="+6% from last month"
+    icon="description"
+    iconBg="bg-blue-50"
+    iconColor="text-blue-600"
+    trendColor="text-green-600">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Agents"
+    [value]="stats.agents"
+    trend="+3% from last month"
+    icon="support_agent"
+    iconBg="bg-green-50"
+    iconColor="text-green-600"
+    trendColor="text-green-600">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Claims"
+    [value]="stats.claims"
+    trend="+9% from last month"
+    icon="assignment"
+    iconBg="bg-orange-50"
+    iconColor="text-orange-600"
+    trendColor="text-orange-600">
+  </app-stat-card>
+
+  <app-stat-card
+    title="Revenue"
+    [value]="'₹ ' + stats.revenue"
+    trend="+12% from last month"
+    icon="payments"
+    iconBg="bg-purple-50"
+    iconColor="text-purple-600"
+    trendColor="text-green-600">
+  </app-stat-card>
+
+</div>
+
+<!-- Claims + Activity -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-10">
+
+  <!-- Claims Overview -->
+  <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-6">
+      Claims Overview
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+      <app-stat-card
+        title="Pending"
+        [value]="claimsSummary.pending"
+        trend="Needs review"
+        icon="hourglass_empty"
+        iconBg="bg-orange-50"
+        iconColor="text-orange-600"
+        trendColor="text-orange-600">
+      </app-stat-card>
+
+      <app-stat-card
+        title="Approved"
+        [value]="claimsSummary.approved"
+        trend="Processed"
+        icon="check_circle"
+        iconBg="bg-green-50"
+        iconColor="text-green-600"
+        trendColor="text-green-600">
+      </app-stat-card>
+
+      <app-stat-card
+        title="Rejected"
+        [value]="claimsSummary.rejected"
+        trend="Closed"
+        icon="cancel"
+        iconBg="bg-red-50"
+        iconColor="text-red-600"
+        trendColor="text-red-600">
+      </app-stat-card>
+
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-6">
+      Recent Activity
+    </h2>
+
+    <ul class="space-y-4">
+      <li
+        *ngFor="let c of recentActivities"
+        class="flex items-center justify-between text-sm">
+
+        <div class="flex items-center gap-3">
+          <span
+            class="w-2.5 h-2.5 rounded-full"
+            [ngClass]="{
+              'bg-orange-400': c.status === 'Pending',
+              'bg-green-500': c.status === 'Approved',
+              'bg-red-500': c.status === 'Rejected'
+            }">
+          </span>
+
+          <span class="text-gray-700">
+            Claim #{{ c.id }}
+          </span>
+        </div>
+
+        <span class="text-xs text-gray-500">
+          {{ c.status }}
+        </span>
+      </li>
+    </ul>
+  </div>
+
+</div>

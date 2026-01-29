@@ -69,6 +69,27 @@
       "email": "anandch118@gmail.com",
       "password": "Anand@123",
       "role": "agent"
+    },
+    {
+      "id": "ba1d",
+      "username": "vikram",
+      "email": "vikram@gmail.com",
+      "password": "qwerty",
+      "role": "agent"
+    },
+    {
+      "id": "8023",
+      "username": "vivek",
+      "email": "vivek@gmail.com",
+      "password": "vivek123",
+      "role": "agent"
+    },
+    {
+      "id": "b666",
+      "username": "rohith",
+      "email": "rohith@gmail.com",
+      "password": "Rohith123",
+      "role": "agent"
     }
   ],
   "customers": [
@@ -101,15 +122,17 @@
   "agents": [
     {
       "id": "a1",
+      "fullName": "anand",
       "email": "anandch119@gmail.com",
       "commissionRate": 10,
       "assignedCustomerIds": [
         "1"
       ],
-      "status": "Active"
+      "status": "Pending"
     },
     {
       "id": "a2",
+      "fullName": "rohith reddy",
       "email": "rohit@gmail.com",
       "commissionRate": 12,
       "assignedCustomerIds": [
@@ -119,6 +142,7 @@
     },
     {
       "id": "a3",
+      "fullName": "Abhilash",
       "email": "abhi@gmail.com",
       "commissionRate": 8,
       "assignedCustomerIds": [
@@ -127,18 +151,17 @@
       "status": "Active"
     },
     {
-      "id": "5418",
-      "userId": 315,
+      "id": "00ee",
+      "userId": null,
+      "email": "rohith@gmail.com",
+      "fullName": "rohith kumar",
+      "phone": "",
+      "address": "",
       "assignedCustomerIds": [],
-      "commissionRate": 10
-      "id": "2",
-      "userId": "3",
-      "phone": "9988776655",
-      "address": "123 Agent St, Hartford, USA",
-      "assignedCustomerIds": [
-        "1"
-      ],
-      "commissionRate": 12
+      "commissionRate": 10,
+      "status": "Pending",
+      "totalCommissionEarned": 0,
+      "createdAt": "2026-01-28"
     }
   ],
   "policies": [
@@ -146,25 +169,38 @@
       "id": "1",
       "name": "Health Insurance Plan",
       "type": "Health",
-      "premium": 12000
+      "premium": 12000,
+      "coverage": 120000
     },
     {
       "id": "2",
       "name": "Vehicle Insurance Plan",
       "type": "Vehicle",
-      "premium": 8000
+      "premium": 8000,
+      "coverage": 130000
     },
     {
       "id": "3",
       "name": "Life Insurance Plan",
       "type": "Life",
-      "premium": 15000
+      "premium": 15000,
+      "coverage": 130000,
+      "durationDays": 365
+    },
+    {
+      "id": "7e85",
+      "name": "qwerty",
+      "type": "health",
+      "premium": 12000,
+      "coverage": 100000,
+      "durationDays": 365
     }
   ],
   "claims": [
     {
       "id": "1",
       "policyId": 1,
+      "customerName": "John Doe",
       "customerId": 1,
       "claimId": "CLM-001",
       "policyName": "Health Insurance Plan",
@@ -172,7 +208,7 @@
       "date": "2025-12-15",
       "amount": 50000,
       "status": "Approved",
-      "adminRemark": "Under Review",
+      "adminRemark": "Pending",
       "timeline": [
         {
           "status": "Submitted",
@@ -189,6 +225,7 @@
     {
       "id": "2",
       "policyId": 2,
+      "customerName": "Priya Sharma",
       "customerId": 1,
       "claimId": "CLM-002",
       "policyName": "Vehicle Insurance Plan",
@@ -218,13 +255,14 @@
     {
       "id": "44de",
       "policyId": "1",
+      "customerName": "John Doe",
       "customerId": "1",
       "claimId": "CLM-1104",
       "policyName": "Health Insurance Plan",
       "type": "Health",
       "date": "2026-01-26",
       "amount": 60000,
-      "status": "Rejected",
+      "status": "Pending",
       "adminRemark": "Under Review",
       "documents": [],
       "timeline": [
@@ -238,25 +276,17 @@
     {
       "id": "dcaf",
       "policyId": "1",
+      "customerName": "John Doe",
       "customerId": "1",
-      "claimId": "CLM-7266",
-      "policyName": "Health Insurance Plan",
-      "type": "Health",
-      "date": "2026-01-26",
-      "amount": 80000,
-      "description": "this is a test one",
-      "status": "Approved",
-      "adminRemark": "Under Review",
-      "policyId": "1",
-      "customerId": "1",
-      "assignedAgentId": "2",
       "claimId": "CLM-001",
       "policyName": "Health Insurance Plan",
       "type": "Health",
       "date": "2026-01-26",
       "amount": 50000,
-      "status": "Recommended for Approval",
+      "description": "this is a test one",
+      "status": "Approved",
       "adminRemark": "Under Review test",
+      "assignedAgentId": "2",
       "documents": [
         "bill.pdf"
       ],
@@ -271,6 +301,7 @@
     {
       "id": "2",
       "policyId": "2",
+      "customerName": "John Doe",
       "customerId": "1",
       "assignedAgentId": "2",
       "claimId": "CLM-002",
@@ -278,7 +309,7 @@
       "type": "Vehicle",
       "date": "2026-01-25",
       "amount": 20000,
-      "status": "Recommended for Rejection",
+      "status": "Pending",
       "adminRemark": "Under Review",
       "documents": [
         "damage.jpg"
@@ -295,14 +326,14 @@
   "communications": [
     {
       "id": "1",
-      "agentId": "2",
+      "agentId": null,
       "customerId": "1",
       "date": "2026-02-20",
       "message": "Called customer regarding claim."
     },
     {
       "id": "d884",
-      "agentId": "2",
+      "agentId": null,
       "customerId": "1",
       "claimId": "CLM-6910",
       "policyName": "Health Insurance Plan",
@@ -344,16 +375,122 @@
     }
   ],
   "documents": [
-      "date": "2026-01-27",
-      "message": "please renewal the policy"
-    },
     {
       "id": "fcd2",
-      "agentId": "2",
+      "agentId": null,
       "customerId": "1",
       "date": "2026-01-27",
       "type": "Phone",
       "message": "this is a test "
+    },
+    {
+      "id": "fcd2",
+      "agentId": null,
+      "customerId": "1",
+      "date": "2026-01-27",
+      "type": "Phone",
+      "message": "this is a test "
+    }
+  ],
+  "policyPurchased": [
+    {
+      "id": "PP001",
+      "policyId": "POL101",
+      "policyName": "Health Secure Plus",
+      "policyType": "Health",
+      "premium": 12000,
+      "coverage": 500000,
+      "customer": {
+        "id": "C001",
+        "name": "Rahul Sharma",
+        "email": "rahul.sharma@gmail.com"
+      },
+      "purchasedDate": "2024-12-10",
+      "paymentStatus": "Paid",
+      "assignedAgent": {
+        "id": "a1",
+        "name": "anandch119@gmail.com"
+      },
+      "status": "Active",
+      "assignedAgentId": "a1"
+    },
+    {
+      "id": "PP002",
+      "policyId": "POL102",
+      "policyName": "Family Health Shield",
+      "policyType": "Health",
+      "premium": 18000,
+      "coverage": 800000,
+      "customer": {
+        "id": "C002",
+        "name": "Anjali Verma",
+        "email": "anjali.verma@gmail.com"
+      },
+      "purchasedDate": "2024-12-15",
+      "paymentStatus": "Paid",
+      "assignedAgent": {
+        "id": "A001",
+        "name": "Suresh Kumar"
+      },
+      "status": "Active"
+    },
+    {
+      "id": "PP003",
+      "policyId": "POL201",
+      "policyName": "Motor Protect Basic",
+      "policyType": "Vehicle",
+      "premium": 6500,
+      "coverage": 300000,
+      "customer": {
+        "id": "C003",
+        "name": "Vikram Reddy",
+        "email": "vikram.reddy@gmail.com"
+      },
+      "purchasedDate": "2025-01-02",
+      "paymentStatus": "Paid",
+      "assignedAgent": {
+        "id": "a3",
+        "name": "abhi@gmail.com"
+      },
+      "status": "Active",
+      "assignedAgentId": "a1"
+    },
+    {
+      "id": "PP004",
+      "policyId": "POL301",
+      "policyName": "Life Secure Plan",
+      "policyType": "Life",
+      "premium": 25000,
+      "coverage": 1500000,
+      "customer": {
+        "id": "C004",
+        "name": "Sneha Iyer",
+        "email": "sneha.iyer@gmail.com"
+      },
+      "purchasedDate": "2025-01-05",
+      "paymentStatus": "Paid",
+      "assignedAgent": {
+        "id": "a1",
+        "name": "anandch119@gmail.com"
+      },
+      "status": "Active"
+    },
+    {
+      "id": "PP005",
+      "policyId": "POL202",
+      "policyName": "Car Comprehensive Plus",
+      "policyType": "Vehicle",
+      "premium": 9200,
+      "coverage": 450000,
+      "customer": {
+        "id": "C005",
+        "name": "Karthik Rao",
+        "email": "karthik.rao@gmail.com"
+      },
+      "purchasedDate": "2025-01-18",
+      "paymentStatus": "Pending",
+      "assignedAgent": null,
+      "status": "Pending"
     }
   ]
 }

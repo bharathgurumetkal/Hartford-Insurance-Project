@@ -1,28 +1,27 @@
 import { Routes } from '@angular/router';
-import { Landing } from '../components/landing/landing';
-import { Login } from '../components/login/login';
-import { Register } from '../components/register/register';
-import { CustomerDashboard } from '../components/customer-dashboard/customer-dashboard';
-import { CustomerProfile } from '../components/customer-profile/customer-profile';
-import { BrowsePolicies } from '../components/browse-policies/browse-policies';
-import { MyPolicies } from '../components/my-policies/my-policies';
-import { FileClaim } from '../components/file-claim/file-claim';
-import { TrackClaims } from '../components/track-claims/track-claims';
-import { Documents } from '../components/documents/documents';
-import { DashboardLayout } from '../components/layout/dashboard-layout/dashboard-layout';
-import { Claims } from '../components/claims/claims';
-import { Admin } from '../components/admin/admin';
+import { Landing } from './components/landing/landing';
+import { Login } from './components/login/login';
+import { Register } from './components/register/register';
+import { CustomerDashboard } from './components/customer-dashboard/customer-dashboard';
+import { CustomerProfile } from './components/customer-profile/customer-profile';
+import { BrowsePolicies } from './components/browse-policies/browse-policies';
+import { FileClaim } from './components/file-claim/file-claim';
+import { TrackClaims } from './components/track-claims/track-claims';
+import { Documents } from './components/documents/documents';
+import { DashboardLayout } from './components/layout/dashboard-layout/dashboard-layout';
+import { Claims } from './components/claims/claims';
+import { Admin } from './components/admin/admin';
 import { PolicyManagement } from '../features/policy-management/policy-management';
-import { SystemOverview } from '../components/system-overview/system-overview';
+import { SystemOverview } from '../features/system-overview/system-overview';
 import { AgentManagement } from '../features/agent-management/agent-management';
 import { ClaimReview } from '../features/claim-review/claim-review';
 import { AgentProfile } from './components/agent-profile/agent-profile';
-import { AgentDashboard } from '../components/agent/agent-dashboard/agent-dashboard';
-import { AssignedCustomers } from '../components/agent/assigned-customers/assigned-customers';
-import { AgentCustomerProfile } from '../components/agent/agent-customer-profile/agent-customer-profile';
+import { AgentDashboard } from './components/agent/agent-dashboard/agent-dashboard';
+import { AssignedCustomers } from './components/agent/assigned-customers/assigned-customers';
+import { AgentCustomerProfile } from './components/agent/agent-customer-profile/agent-customer-profile';
 import { AgentManageClaims } from './components/agent-manage-claims/agent-manage-claims';
-import { CommunicationLog } from '../components/agent/communication-log/communication-log';
-import { Commissions } from '../components/agent/commissions/commissions';
+import { CommunicationLog } from './components/agent/communication-log/communication-log';
+import { Commissions } from './components/agent/commissions/commissions';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -38,7 +37,6 @@ export const routes: Routes = [
             { path: 'dashboard', component: CustomerDashboard },
             { path: 'profile', component: CustomerProfile },
             { path: 'policies', component: PolicyManagement },
-            { path: 'my-policies', component: MyPolicies },
             { path: 'claims', component: Claims },
             { path: 'file-claim', component: FileClaim },
             { path: 'documents', component: Documents },
@@ -68,16 +66,14 @@ export const routes: Routes = [
         path: 'admin',
         component: DashboardLayout,
         children: [
-            { path: '', redirectTo: 'admin', pathMatch: 'full' },
+            { path: '', redirectTo: 'system-overview', pathMatch: 'full' },
             { path: 'system-overview', component:SystemOverview }, 
            
             { path: 'profile', component: CustomerProfile }, // Placeholder - replace with AdminProfile
             { path: 'agent-management', component: AgentManagement}, // Placeholder
-            { path: 'customer-management', component: MyPolicies }, // Placeholder
             { path: 'policy-management', component: PolicyManagement }, // Placeholder
             { path: 'claims-review', component: ClaimReview }, // Placeholder
             // Placeholder
-            { path: 'reports', component: MyPolicies } // Placeholder
         ]
     }
 ];

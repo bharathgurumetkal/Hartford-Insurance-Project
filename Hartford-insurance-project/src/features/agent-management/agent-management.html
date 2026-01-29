@@ -1,73 +1,165 @@
+<!-- ===== PAGE HEADER ===== -->
 <div class="flex items-center justify-between mb-6">
-  <h1 class="text-3xl font-bold text-black-800 ml-3">
+  <h1 class="text-3xl font-bold text-gray-800 ml-3">
     Agent Management
   </h1>
 
-  
   <button
-    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
     (click)="openAddModal()">
     + Add Agent
   </button>
 </div>
 
-<div class="flex flex-wrap ">
-  <input type="text" [(ngModel)]="search" placeholder="search agent..." class="mb-2 p-2 bg-white border dorder-gray-300 w-64 rounded-xl" (input)="searchAgent()">
+<!-- ===== SEARCH & FILTER ===== -->
+<div class="flex flex-wrap gap-4 mb-4">
+  <input
+    type="text"
+    [(ngModel)]="search"
+    placeholder="Search agent..."
+    class="p-2 bg-white border w-64 rounded-xl"
+    (input)="searchAgent()" />
+
   <select
-  class="ml-7 mb-2 p-2 bg-white border dorder-gray-300 w-64 rounded-xl"
-  (change)="filterByPolicyCount($any($event.target).value)">
-  <option value="0">All Agents</option>
-  <option value="1">1+ Policies</option>
-  <option value="3">3+ Policies</option>
-  <option value="5">5+ Policies</option>
-</select>
+    class="p-2 bg-white border w-64 rounded-xl"
+    (change)="filterByPolicyCount($any($event.target).value)">
+    <option value="0">All Agents</option>
+    <option value="1">1+ Policies</option>
+    <option value="3">3+ Policies</option>
+    <option value="5">5+ Policies</option>
+  </select>
 </div>
 
+<!-- ===== AGENT TABLE ===== -->
 <app-data-table
   [columns]="columns"
   [keys]="keys"
   [data]="agents"
+  [customTemplates]="{ status: statusTpl }"
   [actionsTemplate]="actionsTpl">
 </app-data-table>
 
 
+<!-- ===== UNASSIGNED POLICIES ===== -->
+<div class="mt-10">
 
+  <h2 class="text-xl font-semibold text-gray-800 mb-4 ml-3">
+    Unassigned Policies
+  </h2>
 
-<div *ngIf="selectedAgent">
-  <app-agent-details
-    [agent]="selectedAgent"
-    [customers]="customers"
-    [policies]="policies">
-  </app-agent-details>
+  <app-data-table
+    [columns]="policyColumns"
+    [keys]="policyKeys"
+    [data]="unassignedPolicies"
+    [actionsTemplate]="policyActionsTpl">
+  </app-data-table>
+
 </div>
 
-<ng-template #actionsTpl let-agent>
-  <div class="flex gap-2">
-    <button
-      class="px-2 py-1 text-sm rounded bg-blue-100 text-blue-700"
-      (click)="selectedAgent = agent">
-      View
-    </button>
 
-    <button
-      class="px-2 py-1 text-sm rounded bg-red-100 text-red-700"
-      (click)="openDeleteModal(agent.id)">
-      Delete
-    </button>
-  </div>
+<ng-template #policyActionsTpl let-policy>
+  <button
+    class="px-3 py-1 text-sm rounded-lg
+           bg-blue-100 text-blue-700
+           hover:bg-blue-200 transition"
+    (click)="openAssignModal(policy)">
+    Assign
+  </button>
 </ng-template>
 
 
+<!-- ===== STATUS CHANGE MODAL ===== -->
+<div
+  *ngIf="selectedAgentStatus"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-gray-800">
+        Change Agent Status
+      </h3>
+      <button
+        class="text-gray-400 hover:text-gray-600"
+        (click)="closeStatusModal()">
+        ✕
+      </button>
+    </div>
+
+    <!-- Agent Info -->
+    <div class="mb-4 text-sm text-gray-600">
+      <p><strong>Email:</strong> {{ selectedAgentStatus.email }}</p>
+      <p class="mt-1">
+        <strong>Current Status:</strong>
+        <span
+          class="ml-2 px-2 py-0.5 rounded-full text-xs font-semibold"
+          [ngClass]="getStatusClass(selectedAgentStatus.status)">
+          {{ selectedAgentStatus.status }}
+        </span>
+      </p>
+    </div>
+
+    <!-- Status Actions -->
+    <div class="flex gap-3 justify-center mt-6">
+      <button
+        class="px-4 py-2 rounded-lg bg-green-100 text-green-700"
+        [disabled]="selectedAgentStatus.status === 'Active'"
+        (click)="changeStatus('Active')">
+        Active
+      </button>
+
+      <button
+        class="px-4 py-2 rounded-lg bg-yellow-100 text-yellow-700"
+        [disabled]="selectedAgentStatus.status === 'Pending'"
+        (click)="changeStatus('Pending')">
+        Pending
+      </button>
+
+      <button
+        class="px-4 py-2 rounded-lg bg-red-100 text-red-700"
+        [disabled]="selectedAgentStatus.status === 'Inactive'"
+        (click)="changeStatus('Inactive')">
+        Inactive
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-6 text-right">
+      <button
+        class="text-sm text-gray-500 hover:underline"
+        (click)="closeStatusModal()">
+        Cancel
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== STATUS CELL TEMPLATE ===== -->
+<ng-template #statusTpl let-agent>
+  <span
+    class="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold
+           rounded-full cursor-pointer transition
+           hover:ring-2 hover:ring-blue-300"
+    [ngClass]="getStatusClass(agent.status)"
+    title="Click to change status"
+    (click)="openStatusModal(agent)">
+    ● {{ agent.status }}
+  </span>
+</ng-template>
+
+<!-- ===== ACTIONS COLUMN ===== -->
 <ng-template #actionsTpl let-agent>
   <button
-    class="inline-flex px-3 py-1 text-sm font-medium text-red-600 rounded-lg hover:bg-red-500 hover:rounded-lg hover:text-white hover:ring-1 hover:ring-red-300 transition "
+    class="inline-flex px-3 py-1 text-sm font-medium text-red-600
+           rounded-lg hover:bg-red-500 hover:text-white transition"
     (click)="openDeleteModal(agent.id)">
     Delete
   </button>
 </ng-template>
 
-
+<!-- ===== CONFIRM DELETE ===== -->
 <app-confirm-modal
   *ngIf="showConfirmModal"
   title="Delete Agent"
@@ -76,11 +168,59 @@
   (cancel)="closeDeleteModel()">
 </app-confirm-modal>
 
+<!-- ===== ADD AGENT MODAL ===== -->
 <app-add-agent-modal
   *ngIf="showAddModal"
   (close)="showAddModal = false"
   (agentAdded)="onAgentAdded()">
 </app-add-agent-modal>
 
+<!-- ===== ASSIGN AGENT MODAL ===== -->
+<div
+  *ngIf="selectedPolicy"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
 
+    <h3 class="text-lg font-semibold mb-4">
+      Assign Agent to Policy
+    </h3>
+
+    <div class="text-sm text-gray-600 mb-4 space-y-1">
+      <p><strong>Policy:</strong> {{ selectedPolicy.policyName }}</p>
+      <p><strong>Customer:</strong> {{ selectedPolicy.customerName }}</p>
+    </div>
+
+    <label class="block text-sm font-medium mb-1">
+      Select Agent
+    </label>
+
+    <select
+      class="w-full p-2 border rounded-lg mb-6"
+      [(ngModel)]="selectedAgentForPolicy">
+      <option value="">-- Select Agent --</option>
+      <option
+        *ngFor="let agent of agents"
+        [value]="agent.id"
+        [disabled]="agent.status === 'Inactive'">
+        {{ agent.email }} ({{ agent.id }})
+      </option>
+    </select>
+
+    <div class="flex justify-end gap-3">
+      <button
+        class="px-4 py-2 rounded bg-gray-200"
+        (click)="closeAssignModal()">
+        Cancel
+      </button>
+
+      <button
+        class="px-4 py-2 rounded bg-blue-600 text-white"
+        [disabled]="!selectedAgentForPolicy"
+        (click)="confirmAssignPolicy()">
+        Confirm
+      </button>
+    </div>
+
+  </div>
+</div>

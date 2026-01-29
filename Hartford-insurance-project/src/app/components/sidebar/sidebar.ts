@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SIDEBAR_MENU } from './sidebar.config';
-import { AuthService, UserRole } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Auth } from '../../../auth/services/auth';
+type UserRole = 'admin' | 'agent' | 'client';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -12,8 +13,15 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent  {
 
+role!:UserRole;
 
-  role!:UserRole;
+   constructor(private auth: Auth) {
+     this.role = this.auth.getRole(); 
+      console.log('SIDEBAR ROLE →', this.role); // 'admin' | 'agent' | 'client'
+    this.menu = SIDEBAR_MENU[this.role];
+  }
+
+  
   menu:any=[];
 
   get roleColor():string{
@@ -36,11 +44,7 @@ export class SidebarComponent  {
 
  
 
-  constructor(private auth: AuthService) {
-     this.role = this.auth.getUserRole(); 
-      console.log('SIDEBAR ROLE →', this.role); // 'admin' | 'agent' | 'client'
-    this.menu = SIDEBAR_MENU[this.role];
-  }
+ 
 
   
 

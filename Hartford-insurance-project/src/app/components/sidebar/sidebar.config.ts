@@ -1,6 +1,6 @@
 export const SIDEBAR_MENU = {
   admin: [
-    { label: 'SystemOverview', route: '/admin/dashboard' },
+    { label: 'SystemOverview', route: '/admin' },
     { label: 'Policy Management', route: '/admin/policies' },
     { label: 'Agent Management', route: '/admin/agents' },
     { label: 'Claims Monitoring', route: '/admin/claims' },

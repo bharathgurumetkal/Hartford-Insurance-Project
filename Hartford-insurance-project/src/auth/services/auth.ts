@@ -5,10 +5,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class Auth {
-  deleteAgent(id: number) {
-  return this.http.delete(`http://localhost:3000/agents/${id}`);
-}
-
+    getCurrentCustomerId() {
+        throw new Error('Method not implemented.');
+    }
 
   private apiUsers = 'http://localhost:3000/users';
   private apiCustomers = 'http://localhost:3000/customers';
@@ -56,6 +55,12 @@ export class Auth {
     });
   }
 
+  updateAgentStatus(id: number, status: 'Active' | 'Inactive' | 'Pending') {
+  return this.http.patch(`http://localhost:3000/agents/${id}`, { status });
+}
+
+
+
   // REGISTER
   register(fullName: string, email: string, password: string, role: string, callback:(success:boolean)=>void) {
 
@@ -73,12 +78,14 @@ export class Auth {
         if (role === 'customer') {
           const customer = {
             userId: userId,
+            email: email,
             fullName,
             phone: "",
             address: "",
             kycStatus: "Pending",
             communicationPreference: "Email",
-            policyIds: []
+            policyIds: [],
+            assignedAgentId: null
           };
           this.http.post(this.apiCustomers, customer).subscribe({
             next: (cust: any) => {
@@ -90,10 +97,18 @@ export class Auth {
         }
 
         if (role === 'agent') {
+          const currentDate = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
           const agent = {
             userId: userId,
+            email: email,
+            fullName: fullName,
+            phone: "",
+            address: "",
             assignedCustomerIds: [],
-            commissionRate: 10
+            commissionRate: 10,
+            status: "Pending",
+            totalCommissionEarned: 0,
+            createdAt: currentDate
           };
           this.http.post(this.apiAgents, agent).subscribe({
             next: (ag: any) => {
@@ -143,10 +158,11 @@ export class Auth {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
-
+getrole:string=''
   getRole() {
     const user = this.getUser();
     return user?.role;
+    
   }
 
 
@@ -173,6 +189,50 @@ getPolicies(){
   getDocuments(){
     return this.http.get("http://localhost:3000/documents")
   }
+
+deleteAgent(id:number) {
+  return this.http.delete(`http://localhost:3000/agents/${id}`);
+}
+
+deletePolicy(id:number){
+  return this.http.delete(`http://localhost:3000/policies/${id}`)
+}
+
+pushPolicy(pol:any){
+  return this.http.post("http://localhost:3000/policies",pol);
+}
+
+updatePolicy(id: string, policy: any) {
+  return this.http.put(`http://localhost:3000/policies/${id}`, policy);
+}
+
+updateClaimStatus(id: string, status: 'Approved' | 'Rejected') {
+  return this.http.patch(
+    `http://localhost:3000/claims/${id}`,
+    { status }
+  );
+}
+updatePurchasedPolicy(id: string, policy: any) {
+  return this.http.put(`http://localhost:3000/policyPurchased/${id}`, policy);
+}
+getUnassignPolicies(){
+  return this.http.get("http://localhost:3000/policyPurchased");
+}
+
+
+
+assignPolicyToAgent(policyId: string, agent: any) {
+  return this.http.patch(
+    `http://localhost:3000/policyPurchased/${policyId}`,
+    {
+      assignedAgent: {
+        id: agent.id,
+        name: agent.email
+      }
+    }
+  );
+}
+
 
 
 

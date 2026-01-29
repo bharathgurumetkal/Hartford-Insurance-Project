@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { StatCardComponent } from '../../components/stat-card/stat-card';
-import { DataTable } from '../../components/data-table/data-table';
+import { StatCardComponent } from '../../app/components/stat-card/stat-card';
+import { DataTable } from '../../app/components/data-table/data-table';
 import { Claim } from '../../models/claim';
 import { CommonModule } from '@angular/common';
+import { Auth } from '../../auth/services/auth';
 
 @Component({
   selector: 'app-claim-review',
@@ -23,25 +23,27 @@ export class ClaimReview {
   tableColumns: string[] = [
     'Claim ID',
     'Policy ID',
-    'Customer',
+    'Policy Name',
+    'Customer Name',
     'Amount',
     'Status',
     'Submitted Date',
-    'Actions'
+   
   ];
 
 
   tableKeys: string[] = [
     'id',
     'policyId',
-    'customerId',
+    'policyName',
+    'customerName',
     'amount',
     'status',
     'date'
   ];
 
   constructor(
-    private api: AuthService,
+    private api: Auth,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -54,6 +56,7 @@ export class ClaimReview {
       this.claims = data;
       this.calculateStats();
       this.cdr.detectChanges();
+      console.log(this.claims)
     });
   }
 
