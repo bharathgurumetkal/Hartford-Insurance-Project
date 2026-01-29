@@ -27,13 +27,30 @@ export class Claims {
     });
   }
 
-  // ✅ NEW — Get policies list
-  getPolicies(callback:(policies:any[])=>void) {
+  // ✅ Get policies list (optionally filtered by IDs)
+  getPolicies(callback:(policies:any[])=>void, policyIds?: string[]) {
     this.http.get<any[]>(this.apiPolicies)
       .subscribe({
-        next: (policies)=> callback(policies),
+        next: (policies)=> {
+          if (policyIds && policyIds.length > 0) {
+            // Filter to only include policies in the policyIds array
+            const filtered = policies.filter(p => policyIds.includes(p.id));
+            callback(filtered);
+          } else {
+            callback(policies);
+          }
+        },
         error: ()=> callback([])
       });
+  }
+
+  // ✅ Get policies by specific IDs (for customer-owned policies)
+  getPoliciesByIds(policyIds: string[], callback:(policies:any[])=>void) {
+    if (!policyIds || policyIds.length === 0) {
+      callback([]);
+      return;
+    }
+    this.getPolicies(callback, policyIds);
   }
 
   // ✅ NEW — POST new claim
@@ -48,7 +65,7 @@ export class Claims {
   // ✅ NEW — Upload documents
   uploadDocuments(formData: FormData, callback:(res:any)=>void) {
     // This hits backend upload API
-    this.http.post('http://localhost:4000/upload', formData)
+    this.http.post('http://localhost:3000/upload', formData)
       .subscribe({
         next: (res)=> callback(res),
         error: ()=> callback(null)

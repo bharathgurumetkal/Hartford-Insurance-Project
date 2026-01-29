@@ -5,10 +5,16 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class Auth {
+<<<<<<< HEAD
   deleteAgent(id: number) {
   return this.http.delete(`http://localhost:3000/agents/${id}`);
 }
 
+=======
+    getCurrentCustomerId() {
+        throw new Error('Method not implemented.');
+    }
+>>>>>>> da2ec8f (agents and customer part fully completed need to integrate admins part)
 
   private apiUsers = 'http://localhost:3000/users';
   private apiCustomers = 'http://localhost:3000/customers';
@@ -73,12 +79,14 @@ export class Auth {
         if (role === 'customer') {
           const customer = {
             userId: userId,
+            email: email,
             fullName,
             phone: "",
             address: "",
             kycStatus: "Pending",
             communicationPreference: "Email",
-            policyIds: []
+            policyIds: [],
+            assignedAgentId: null
           };
           this.http.post(this.apiCustomers, customer).subscribe({
             next: (cust: any) => {
@@ -90,10 +98,18 @@ export class Auth {
         }
 
         if (role === 'agent') {
+          const currentDate = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
           const agent = {
             userId: userId,
+            email: email,
+            fullName: fullName,
+            phone: "",
+            address: "",
             assignedCustomerIds: [],
-            commissionRate: 10
+            commissionRate: 10,
+            status: "Pending",
+            totalCommissionEarned: 0,
+            createdAt: currentDate
           };
           this.http.post(this.apiAgents, agent).subscribe({
             next: (ag: any) => {

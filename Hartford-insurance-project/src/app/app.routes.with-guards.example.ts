@@ -8,8 +8,8 @@ import { Login } from '../components/login/login';
 import { Register } from '../components/register/register';
 import { CustomerDashboard } from '../components/customer-dashboard/customer-dashboard';
 import { CustomerProfile } from '../components/customer-profile/customer-profile';
-import { BrowsePolicies } from '../components/browse-policies/browse-policies';
-import { MyPolicies } from '../components/my-policies/my-policies';
+import { BrowsePolicies } from '../../src/components/browse-policies/browse-policies';
+import { MyPoliciesComponent } from '../../src/components/my-policies/my-policies';
 import { FileClaim } from '../components/file-claim/file-claim';
 import { TrackClaims } from '../components/track-claims/track-claims';
 import { Documents } from '../components/documents/documents';
@@ -33,7 +33,7 @@ export const routesWithGuards: Routes = [
             { path: 'dashboard', component: CustomerDashboard },
             { path: 'profile', component: CustomerProfile },
             { path: 'policies', component: BrowsePolicies },
-            { path: 'my-policies', component: MyPolicies },
+            { path: 'my-policies', component: MyPoliciesComponent },
             { path: 'claims', component: Claims },
             { path: 'file-claim', component: FileClaim },
             { path: 'documents', component: Documents },
@@ -52,7 +52,7 @@ export const routesWithGuards: Routes = [
             { path: 'dashboard', component: CustomerDashboard },
             { path: 'profile', component: CustomerProfile },
             { path: 'customers', component: BrowsePolicies },
-            { path: 'policies', component: MyPolicies },
+            { path: 'policies', component: MyPoliciesComponent },
             { path: 'claims', component: Claims },
             { path: 'commissions', component: Documents }
         ]
@@ -69,11 +69,11 @@ export const routesWithGuards: Routes = [
             { path: 'dashboard', component: CustomerDashboard },
             { path: 'profile', component: CustomerProfile },
             { path: 'agent-management', component: BrowsePolicies },
-            { path: 'customer-management', component: MyPolicies },
+            { path: 'customer-management', component: MyPoliciesComponent },
             { path: 'policy-management', component: Claims },
             { path: 'claims-review', component: Documents },
             { path: 'system-overview', component: CustomerDashboard },
-            { path: 'reports', component: MyPolicies }
+            { path: 'reports', component: MyPoliciesComponent }
         ]
     }
 ];

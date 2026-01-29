@@ -36,6 +36,7 @@
       "role": "customer"
     },
     {
+<<<<<<< HEAD
       "id": "6",
       "username": "abhi",
       "email": "abhi@gmail.com",
@@ -68,6 +69,33 @@
       "username": "Anand Kumar",
       "email": "anandch118@gmail.com",
       "password": "Anand@123",
+=======
+      "id": "4fae",
+      "username": "sai",
+      "email": "sai@gmail.com",
+      "password": "Sai@123",
+      "role": "customer"
+    },
+    {
+      "id": "6a0e",
+      "username": "ravi",
+      "email": "ravi@gmail.com",
+      "password": "Ravi@123",
+      "role": "customer"
+    },
+    {
+      "id": "de0d",
+      "username": "bharath",
+      "email": "bharath@gmail.com",
+      "password": "Bharath@123",
+      "role": "agent"
+    },
+    {
+      "id": "5c58",
+      "username": "Ramu",
+      "email": "ramu@gmail.com",
+      "password": "Ramu@123",
+>>>>>>> da2ec8f (agents and customer part fully completed need to integrate admins part)
       "role": "agent"
     }
   ],
@@ -83,7 +111,8 @@
       "policyIds": [
         "1",
         "2"
-      ]
+      ],
+      "assignedAgentId": "2"
     },
     {
       "id": "2",
@@ -95,7 +124,30 @@
       "communicationPreference": "Phone",
       "policyIds": [
         "3"
-      ]
+      ],
+      "assignedAgentId": null
+    },
+    {
+      "id": "c99b",
+      "userId": 4,
+      "fullName": "sai",
+      "phone": "",
+      "address": "",
+      "kycStatus": "Pending",
+      "communicationPreference": "Email",
+      "policyIds": [],
+      "assignedAgentId": null
+    },
+    {
+      "id": "5071",
+      "userId": 6,
+      "fullName": "ravi",
+      "phone": "",
+      "address": "",
+      "kycStatus": "Pending",
+      "communicationPreference": "Email",
+      "policyIds": [],
+      "assignedAgentId": null
     }
   ],
   "agents": [
@@ -133,12 +185,56 @@
       "commissionRate": 10
       "id": "2",
       "userId": "3",
+      "email": "agent2@insurance.com",
+      "fullName": "agent2",
       "phone": "9988776655",
       "address": "123 Agent St, Hartford, USA",
       "assignedCustomerIds": [
         "1"
       ],
-      "commissionRate": 12
+      "commissionRate": 12,
+      "status": "Active",
+      "totalCommissionEarned": 0,
+      "createdAt": "2026-01-15"
+    },
+    {
+      "id": "4898",
+      "userId": "de0d",
+      "email": "bharath@gmail.com",
+      "fullName": "bharath",
+      "phone": "",
+      "address": "",
+      "commissionRate": 10,
+      "assignedCustomerIds": [],
+      "status": "Pending",
+      "totalCommissionEarned": 0,
+      "createdAt": "2026-01-20"
+    },
+    {
+      "id": "841b",
+      "userId": null,
+      "email": "",
+      "fullName": "",
+      "phone": "9988999900",
+      "address": "hyderabad",
+      "assignedCustomerIds": [],
+      "commissionRate": 10,
+      "status": "Pending",
+      "totalCommissionEarned": 0,
+      "createdAt": "2026-01-22"
+    },
+    {
+      "id": "c2a3",
+      "userId": 5,
+      "email": "ramu@gmail.com",
+      "fullName": "Ramu",
+      "phone": "",
+      "address": "",
+      "assignedCustomerIds": [],
+      "commissionRate": 10,
+      "status": "Pending",
+      "totalCommissionEarned": 0,
+      "createdAt": "2026-01-28"
     }
   ],
   "policies": [
@@ -146,19 +242,22 @@
       "id": "1",
       "name": "Health Insurance Plan",
       "type": "Health",
-      "premium": 12000
+      "premium": 12000,
+      "coverage": 500000
     },
     {
       "id": "2",
       "name": "Vehicle Insurance Plan",
       "type": "Vehicle",
-      "premium": 8000
+      "premium": 8000,
+      "coverage": 300000
     },
     {
       "id": "3",
       "name": "Life Insurance Plan",
       "type": "Life",
-      "premium": 15000
+      "premium": 15000,
+      "coverage": 1000000
     }
   ],
   "claims": [
@@ -288,6 +387,227 @@
           "status": "Submitted",
           "message": "Claim submitted successfully",
           "date": "2026-01-25"
+        }
+      ]
+    },
+    {
+      "id": "7d11",
+      "policyId": "1",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-1330",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-28",
+      "amount": null,
+      "description": "this is from customer1",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "NGProjectDoc (1).pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-28"
+        }
+      ]
+    },
+    {
+      "id": "54ea",
+      "policyId": "1",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-6561",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-28",
+      "amount": null,
+      "description": "this is another one from customer1",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "ASSMT-EmpExample.pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-28"
+        }
+      ]
+    },
+    {
+      "id": "cf25",
+      "policyId": "1",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-4228",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-28",
+      "amount": 4566666666,
+      "description": "this is testing after fix",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "ASSMt2-CRUD (1).pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-28"
+        }
+      ]
+    },
+    {
+      "id": "51a9",
+      "policyId": "2",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-3134",
+      "policyName": "Vehicle Insurance Plan",
+      "type": "Vehicle",
+      "date": "2026-01-28",
+      "description": "thebr",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "ASSMt2-CRUD.pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-28"
+        }
+      ]
+    },
+    {
+      "id": "00db",
+      "customerId": "1",
+      "documentType": "Claim Document",
+      "fileName": "ASSMt2-CRUD.pdf",
+      "expiryDate": "N/A",
+      "uploadDate": "2026-01-28"
+    },
+    {
+      "id": "19d7",
+      "policyId": "2",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-7700",
+      "policyName": "Vehicle Insurance Plan",
+      "type": "Vehicle",
+      "date": "2026-01-28",
+      "description": "",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-28"
+        }
+      ]
+    },
+    {
+      "id": "26ef",
+      "policyId": "1",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-3255",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-28",
+      "description": "",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-28"
+        }
+      ]
+    },
+    {
+      "id": "6061",
+      "policyId": "1",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-4649",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-29",
+      "description": "TEST",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "ASSMT3-Services.pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-29"
+        }
+      ]
+    },
+    {
+      "id": "9f43",
+      "customerId": "1",
+      "documentType": "Claim Document",
+      "fileName": "ASSMT3-Services.pdf",
+      "expiryDate": "N/A",
+      "uploadDate": "2026-01-29"
+    },
+    {
+      "id": "e095",
+      "policyId": "2",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-6979",
+      "policyName": "Vehicle Insurance Plan",
+      "type": "Vehicle",
+      "date": "2026-01-29",
+      "description": "56y",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-29"
+        }
+      ]
+    },
+    {
+      "id": "7b25515c-10d0-4008-b647-9dc7d5231fab",
+      "policyId": "1",
+      "customerId": "1",
+      "assignedAgentId": "2",
+      "claimId": "CLM-7653",
+      "policyName": "Health Insurance Plan",
+      "type": "Health",
+      "date": "2026-01-29",
+      "amount": 566,
+      "description": "65y",
+      "status": "Pending",
+      "adminRemark": "Under Review",
+      "documents": [
+        "BUS Pass tarun2026.pdf"
+      ],
+      "timeline": [
+        {
+          "status": "Submitted",
+          "message": "Claim submitted successfully",
+          "date": "2026-01-29"
         }
       ]
     }

@@ -1,0 +1,50 @@
+<div class="p-8">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-slate-900">Assigned Customers</h1>
+    <p class="text-slate-500">View and manage detailed profiles of your customers.</p>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <table class="w-full text-left text-sm text-slate-600">
+      <thead class="bg-slate-50 text-slate-500 font-medium">
+        <tr>
+          <th class="px-6 py-4">ID</th>
+          <th class="px-6 py-4">Full Name</th>
+          <th class="px-6 py-4">Contact</th>
+          <th class="px-6 py-4">Location</th>
+          <th class="px-6 py-4">KYC Status</th>
+          <th class="px-6 py-4 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        @for (customer of customers; track customer.id) {
+          <tr class="hover:bg-slate-50 transition">
+            <td class="px-6 py-4">#{{ customer.id }}</td>
+            <td class="px-6 py-4 font-medium text-slate-900">{{ customer.fullName }}</td>
+            <td class="px-6 py-4">
+              <div class="flex flex-col">
+                <span>{{ customer.phone }}</span>
+                <span class="text-xs text-slate-400">Pref: {{ customer.communicationPreference }}</span>
+              </div>
+            </td>
+            <td class="px-6 py-4">{{ customer.address }}</td>
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 rounded text-xs font-medium"
+                [ngClass]="{
+                  'bg-green-100 text-green-700': customer.kycStatus === 'Verified',
+                  'bg-yellow-100 text-yellow-700': customer.kycStatus === 'Pending'
+                }">
+                {{ customer.kycStatus }}
+              </span>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <button (click)="viewProfile(customer.id)" class="text-blue-600 font-medium hover:underline">
+                View Profile
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

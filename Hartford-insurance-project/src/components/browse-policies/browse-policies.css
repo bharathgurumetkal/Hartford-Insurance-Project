@@ -1,0 +1,55 @@
+/* Filter Section Styles */
+.filter-section {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  backdrop-filter: blur(4px);
+}
+
+/* Comparison Card Hover */
+.comparison-card {
+  transition: transform 0.2s ease;
+}
+
+.comparison-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+  accent-color: #1e3a8a;
+}
+
+/* Smooth transitions */
+button {
+  transition: all 0.2s ease;
+}
+
+/* Policy Card Animation */
+.policy-card {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

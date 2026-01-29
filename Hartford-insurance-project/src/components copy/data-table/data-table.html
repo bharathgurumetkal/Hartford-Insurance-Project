@@ -1,0 +1,45 @@
+<div class="bg-white rounded-xl border shadow-sm overflow-hidden">
+  <table class="w-full text-sm text-gray-700">
+
+    <thead class="bg-gray-50 border-b">
+      <tr>
+        <th
+          *ngFor="let col of columns"
+          class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+          {{ col }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr
+        *ngFor="let row of data; let i = index"
+        class="border-b last:border-b-0 hover:bg-gray-50 transition">
+
+      
+        <td
+          *ngFor="let key of keys"
+          class="px-6 py-4 whitespace-nowrap">
+          {{ row[key] }}
+        </td>
+
+     
+        <td *ngIf="actionsTemplate" class="px-6 py-4 text-right">
+          <ng-container
+            *ngTemplateOutlet="actionsTemplate; context: { $implicit: row }">
+          </ng-container>
+        </td>
+      </tr>
+
+  
+      <tr *ngIf="data.length === 0">
+        <td
+          [attr.colspan]="columns.length"
+          class="px-6 py-10 text-center text-gray-400">
+          No records found
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

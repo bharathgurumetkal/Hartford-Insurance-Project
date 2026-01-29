@@ -39,13 +39,9 @@ export class Documents implements OnInit {
       this.documents = docs;
       this.isLoading = false;
       this.cd.detectChanges();
+      console.log("docs",this.documents)
     });
   }
 
-  getIconForType(type: string): string {
-    if (type.includes('Aadhar')) return 'badge';
-    if (type.includes('Claim')) return 'description';
-    if (type.includes('Policy')) return 'policy';
-    return 'folder';
-  }
+
 }

@@ -5,7 +5,7 @@ import { Register } from '../components/register/register';
 import { CustomerDashboard } from '../components/customer-dashboard/customer-dashboard';
 import { CustomerProfile } from '../components/customer-profile/customer-profile';
 import { BrowsePolicies } from '../components/browse-policies/browse-policies';
-import { MyPolicies } from '../components/my-policies/my-policies';
+import { MyPoliciesComponent } from '../../src/components/my-policies/my-policies';
 import { FileClaim } from '../components/file-claim/file-claim';
 import { TrackClaims } from '../components/track-claims/track-claims';
 import { Documents } from '../components/documents/documents';
@@ -23,6 +23,8 @@ import { AgentCustomerProfile } from '../components/agent/agent-customer-profile
 import { AgentManageClaims } from './components/agent-manage-claims/agent-manage-claims';
 import { CommunicationLog } from '../components/agent/communication-log/communication-log';
 import { Commissions } from '../components/agent/commissions/commissions';
+import { PurchasePolicyComponent } from '../components/purchase-policy/purchase-policy';
+import { PurchaseSuccessComponent } from '../components/purchase-success/purchase-success';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -37,12 +39,14 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: CustomerDashboard },
             { path: 'profile', component: CustomerProfile },
-            { path: 'policies', component: PolicyManagement },
-            { path: 'my-policies', component: MyPolicies },
+            { path: 'policies', component: BrowsePolicies },
+            { path: 'my-policies', component: MyPoliciesComponent },
             { path: 'claims', component: Claims },
             { path: 'file-claim', component: FileClaim },
             { path: 'documents', component: Documents },
-            { path: 'customer-profile', component: CustomerProfile }
+            { path: 'customer-profile', component: CustomerProfile },
+            {path:'purchase/:policyId',component:PurchasePolicyComponent},
+            {path:'purchase-success',component:PurchaseSuccessComponent}
         ]
     },
     
@@ -73,11 +77,11 @@ export const routes: Routes = [
            
             { path: 'profile', component: CustomerProfile }, // Placeholder - replace with AdminProfile
             { path: 'agent-management', component: AgentManagement}, // Placeholder
-            { path: 'customer-management', component: MyPolicies }, // Placeholder
+            { path: 'customer-management', component: MyPoliciesComponent }, // Placeholder
             { path: 'policy-management', component: PolicyManagement }, // Placeholder
-            { path: 'claims-review', component: ClaimReview }, // Placeholder
-            // Placeholder
-            { path: 'reports', component: MyPolicies } // Placeholder
+            { path: 'claims-review', component: Documents }, // Placeholder
+            { path: 'system-overview', component:SystemOverview }, // Placeholder
+            { path: 'reports', component: MyPoliciesComponent } // Placeholder
         ]
     }
 ];

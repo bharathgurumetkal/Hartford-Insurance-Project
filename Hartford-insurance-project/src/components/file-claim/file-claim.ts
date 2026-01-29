@@ -23,13 +23,15 @@ export class FileClaim implements OnInit {
   amount:number | null = null;
   description = '';
 
-  damageCost: number | null = null;
+damageCost: number = 0; 
 calculatedAmount: number | null = null;
 
   uploadedFiles: File[] = [];
   uploadedFileNames: string[] = [];
 
   customerId!: number;
+  hasNoPolicies: boolean = false;
+  customerData: any = null;
 
   constructor(
     private claimsService: Claims,
@@ -38,23 +40,33 @@ calculatedAmount: number | null = null;
   ) {}
 
   ngOnInit() {
-    // Load policies
-    this.claimsService.getPolicies((policies)=>{
-      this.policies = policies;
-      this.cd.detectChanges();
-    });
-
     // Get logged-in customer
     const user = JSON.parse(localStorage.getItem('user')!);
 
     this.claimsService.getCustomerByUserId(user.id,(customer)=>{
       this.customerId = customer.id;
-      this.cd.detectChanges();
+      this.customerData = customer;
+
+      // Check if customer has any policies
+      if (!customer.policyIds || customer.policyIds.length === 0) {
+        this.hasNoPolicies = true;
+        this.policies = [];
+        this.cd.detectChanges();
+        return;
+      }
+
+      // Load only customer's owned policies
+      this.claimsService.getPoliciesByIds(customer.policyIds, (policies)=>{
+        this.policies = policies;
+        this.hasNoPolicies = false;
+        this.cd.detectChanges();
+      });
     });
   }
 
-    calculateClaimAmount() {
-  if (this.selectedPolicy && this.damageCost != null) {
+calculateClaimAmount() {
+  if (this.selectedPolicy && this.damageCost > 0) {
+    // Claim amount cannot exceed policy coverage
     this.calculatedAmount = Math.min(
       this.damageCost,
       this.selectedPolicy.coverage
@@ -63,6 +75,7 @@ calculatedAmount: number | null = null;
     this.calculatedAmount = null;
   }
 }
+
 
   onPolicyChange() {
     const policy = this.policies.find(p=>p.id == this.selectedPolicyId);
@@ -79,53 +92,46 @@ calculatedAmount: number | null = null;
     this.uploadedFileNames = this.uploadedFiles.map(f => f.name);
   }
 
-  submitClaim() {
+submitClaim() {
 
-    const policy = this.policies.find(p=>p.id == this.selectedPolicyId);
+  const policy = this.policies.find(p => p.id == this.selectedPolicyId);
 
-    const newClaim = {
-      policyId: this.selectedPolicyId,
-      customerId: this.customerId,
-      claimId: "CLM-" + Math.floor(1000 + Math.random()*9000),
-      policyName: policy?.name,
-      type: policy?.type,
-      date: new Date().toISOString().slice(0,10),
-      amount: this.amount,
-      description:this.description,
-      status: "Pending",
-      adminRemark: "Under Review",
+  const newClaim = {
+    id: crypto.randomUUID(), // ensure unique id
+    policyId: this.selectedPolicyId,
+    customerId: this.customerId,
+    assignedAgentId: this.customerData?.assignedAgentId || null,
+    claimId: "CLM-" + Math.floor(1000 + Math.random() * 9000),
+    policyName: policy?.name,
+    type: policy?.type,
+    date: new Date().toISOString().slice(0, 10),
 
-      // ✅ filenames stored only
-      documents: this.uploadedFileNames,
+    // ✅ FIXED
+    amount: this.calculatedAmount,
 
-      timeline: [
-        {
-          status: "Submitted",
-          message: "Claim submitted successfully",
-          date: new Date().toISOString().slice(0,10)
-        }
-      ]
-    };
+    description: this.description,
+    status: "Pending",
+    adminRemark: "Under Review",
 
-    // Save to JSON Server
-    this.claimsService.fileClaim(newClaim, (res) => {
-      
-      // Save documents to db.json
-      this.uploadedFileNames.forEach(fileName => {
-        const doc = {
-          customerId: this.customerId,
-          documentType: "Claim Document", // Generic type for now
-          fileName: fileName,
-          expiryDate: "N/A", // Not applicable for claim docs usually
-          uploadDate: new Date().toISOString().slice(0, 10)
-        };
-        this.documentsService.addDocument(doc, () => {});
-      });
+    // ✅ Store filenames inside claim only
+    documents: this.uploadedFileNames,
 
-      alert("Claim Filed Successfully!");
-      this.closeModal.emit();
-      this.cd.detectChanges();
-    });
-  }
+    timeline: [
+      {
+        status: "Submitted",
+        message: "Claim submitted successfully",
+        date: new Date().toISOString().slice(0, 10)
+      }
+    ]
+  };
+
+  // ✅ Only ONE POST
+  this.claimsService.fileClaim(newClaim, () => {
+    this.closeModal.emit();
+    this.cd.detectChanges();
+  });
+}
+
+
   
 }

@@ -1,0 +1,282 @@
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-xl mt-10">
+
+  <h2 class="text-3xl font-bold text-slate-800 mb-2">Policy Purchase Application</h2>
+  <p class="text-slate-500 mb-6">Complete the form below to purchase your insurance policy</p>
+
+  <!-- Hidden file input -->
+  <input type="file" #kycInput hidden multiple accept=".pdf,.jpg,.png,.jpeg" (change)="onKycSelected($event)" />
+
+  <!-- Loading State -->
+  @if (loading) {
+  <div class="text-center py-12">
+    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900"></div>
+    <p class="text-slate-600 mt-4">Loading policy details...</p>
+  </div>
+  }
+
+  <!-- Error State -->
+  @if (!loading && error && !policy) {
+  <div class="text-center py-12">
+    <div class="bg-red-50 border border-red-200 rounded-xl p-6 max-w-md mx-auto">
+      <p class="text-red-600 text-lg font-semibold mb-2">⚠️ Error Loading Policy</p>
+      <p class="text-red-700 mb-4">{{ error }}</p>
+      <button (click)="router.navigate(['/customer/policies'])"
+        class="px-6 py-2 bg-blue-900 text-white rounded-xl hover:bg-blue-800">
+        Back to Browse Policies
+      </button>
+    </div>
+  </div>
+  }
+
+  <!-- Policy not found -->
+  @if (!loading && policy === null && !error) {
+  <div class="text-center py-12">
+    <p class="text-red-500 text-lg">Policy not found.</p>
+    <button (click)="router.navigate(['/customer/policies'])" class="mt-4 px-6 py-2 bg-blue-900 text-white rounded-xl">
+      Browse Policies
+    </button>
+  </div>
+  }
+
+  <!-- Purchase Form -->
+  @if (!loading && policy && !success) {
+
+  <!-- Policy Summary -->
+  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl mb-8 border border-blue-100">
+    <div class="flex justify-between items-start">
+      <div>
+        <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full mb-2" [ngClass]="{
+              'bg-rose-100 text-rose-600': policy.type === 'Health',
+              'bg-blue-100 text-blue-600': policy.type === 'Vehicle',
+              'bg-emerald-100 text-emerald-600': policy.type === 'Life'
+            }">
+          {{ policy.type }}
+        </span>
+        <h3 class="text-2xl font-bold text-slate-800">{{ policy.name }}</h3>
+        <p class="text-slate-600 mt-1">{{ policy.description }}</p>
+      </div>
+      <div class="text-right">
+        <p class="text-sm text-slate-600">Base Premium</p>
+        <p class="text-2xl font-bold text-slate-900">₹{{ policy.premium | number }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mt-4">
+      <div class="bg-white p-3 rounded-xl">
+        <p class="text-xs text-slate-600">Coverage Amount</p>
+        <p class="text-lg font-bold text-slate-900">₹{{ policy.coverage | number }}</p>
+      </div>
+      <div class="bg-white p-3 rounded-xl">
+        <p class="text-xs text-slate-600">Duration</p>
+        <p class="text-lg font-bold text-slate-900">{{ policy.durationDays }} days</p>
+      </div>
+    </div>
+  </div>
+
+  <form #purchaseForm="ngForm" class="space-y-6">
+
+    <!-- Personal Information Section -->
+    <div class="border border-slate-200 rounded-2xl p-6">
+      <h4 class="text-xl font-bold text-slate-800 mb-4">Personal Information</h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Full Name *</label>
+          <input type="text" name="fullName" [(ngModel)]="form.fullName" required
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter your full name">
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Email *</label>
+          <input type="email" name="email" [(ngModel)]="form.email" required
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="your.email@example.com">
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Phone Number *</label>
+          <input type="tel" name="phone" [(ngModel)]="form.phone" required
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="10-digit mobile number">
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Date of Birth</label>
+          <input type="date" name="dateOfBirth" [(ngModel)]="form.dateOfBirth" (change)="calculateAge()"
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          @if (form.age > 0) {
+          <p class="text-sm text-slate-600 mt-1">Age: {{ form.age }} years</p>
+          }
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block mb-2 font-semibold text-slate-700">Address</label>
+          <input type="text" name="address" [(ngModel)]="form.address"
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Street address">
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">City</label>
+          <input type="text" name="city" [(ngModel)]="form.city"
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="City">
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">State</label>
+          <input type="text" name="state" [(ngModel)]="form.state"
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="State">
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Pincode</label>
+          <input type="text" name="pincode" [(ngModel)]="form.pincode"
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="6-digit pincode">
+        </div>
+      </div>
+    </div>
+
+    <!-- Nominee Information Section -->
+    <div class="border border-slate-200 rounded-2xl p-6">
+      <h4 class="text-xl font-bold text-slate-800 mb-4">Nominee Information</h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Nominee Name *</label>
+          <input type="text" name="nomineeName" [(ngModel)]="form.nomineeName" required
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Nominee full name">
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Relationship *</label>
+          <select name="nomineeRelation" [(ngModel)]="form.nomineeRelation" required
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option value="">Select relationship</option>
+            <option value="Spouse">Spouse</option>
+            <option value="Parent">Parent</option>
+            <option value="Child">Child</option>
+            <option value="Sibling">Sibling</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Nominee Age</label>
+          <input type="number" name="nomineeAge" [(ngModel)]="form.nomineeAge"
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Age">
+        </div>
+      </div>
+    </div>
+
+    <!-- Premium Calculator Section -->
+    <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50">
+      <h4 class="text-xl font-bold text-slate-800 mb-4">Premium Calculator</h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-2 font-semibold text-slate-700">Payment Mode</label>
+          <select name="paymentMode" [(ngModel)]="form.paymentMode" (change)="calculatePremium()"
+            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white">
+            <option value="Yearly">Yearly</option>
+            <option value="Monthly">Monthly</option>
+          </select>
+        </div>
+
+        <div class="flex items-end">
+          <div class="w-full bg-blue-900 text-white p-4 rounded-xl">
+            <p class="text-sm opacity-90">Payable Premium</p>
+            <p class="text-3xl font-bold">₹{{ calculatedPremium | number }}</p>
+            <p class="text-xs opacity-75">{{ form.paymentMode === 'Monthly' ? 'per month' : 'per year' }}</p>
+          </div>
+        </div>
+      </div>
+
+      @if (form.age > 0) {
+      <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-xl">
+        <p class="text-sm text-blue-800">
+          <strong>Note:</strong> Premium has been adjusted based on your age ({{ form.age }} years).
+          @if (form.age > 60) {
+          Senior citizens have a 20% premium increase.
+          } @else if (form.age < 25) { Young adults have a 10% premium increase. } </p>
+      </div>
+      }
+    </div>
+
+    <!-- KYC Document Upload Section -->
+    <div class="border border-slate-200 rounded-2xl p-6">
+      <h4 class="text-xl font-bold text-slate-800 mb-4">KYC Document Upload *</h4>
+
+      <button type="button"
+        class="w-full bg-slate-700 hover:bg-slate-800 text-white py-4 rounded-xl mb-4 transition font-semibold"
+        (click)="kycInput.click()">
+        📎 Upload KYC Documents (PDF, JPG, PNG)
+      </button>
+
+      @if (kycFileNames.length > 0) {
+      <div class="space-y-2">
+        <p class="text-sm font-semibold text-green-600 mb-2">✓ Documents uploaded:</p>
+        @for (fileName of kycFileNames; track fileName; let i = $index) {
+        <div class="flex items-center justify-between bg-green-50 border border-green-200 p-3 rounded-xl">
+          <span class="text-sm text-slate-700">{{ fileName }}</span>
+          <button type="button" (click)="removeDocument(i)" class="text-red-600 hover:text-red-800 font-bold">
+            ✕
+          </button>
+        </div>
+        }
+      </div>
+      } @else {
+      <p class="text-sm text-slate-500 italic">No documents uploaded yet</p>
+      }
+    </div>
+
+    <!-- Terms and Conditions Section -->
+    <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50">
+      <div class="flex items-start">
+        <input type="checkbox" id="termsAccepted" name="termsAccepted" [(ngModel)]="form.termsAccepted"
+          class="w-5 h-5 mt-1 cursor-pointer text-blue-900 border-slate-300 rounded focus:ring-2 focus:ring-blue-500">
+        <label for="termsAccepted" class="ml-3 text-sm text-slate-700 cursor-pointer">
+          <span class="font-semibold">I accept the terms and conditions *</span>
+          <p class="mt-1 text-slate-600">
+            I have read and agree to the policy terms, conditions, and privacy policy. I understand that providing false
+            information may result in policy cancellation.
+          </p>
+        </label>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    @if (error) {
+    <div class="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl">
+      <p class="font-semibold">{{ error }}</p>
+    </div>
+    }
+
+    <!-- Submit Button -->
+    <button type="button"
+      class="w-full bg-blue-900 hover:bg-blue-800 text-white py-4 rounded-xl font-bold text-lg transition disabled:bg-slate-300 disabled:cursor-not-allowed"
+      [disabled]="!purchaseForm.valid || kycFileNames.length === 0 || !form.termsAccepted" (click)="confirmPurchase()">
+      Confirm Purchase
+    </button>
+
+  </form>
+  }
+
+  <!-- Success Message -->
+  @if (success) {
+  <div class="text-center py-12">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+      <span class="text-4xl">✅</span>
+    </div>
+    <h3 class="text-2xl font-bold text-green-600 mb-2">Policy Purchase Successful!</h3>
+    <p class="text-slate-600 mb-4">Your application has been submitted and is pending approval.</p>
+    <p class="text-sm text-slate-500">Redirecting to My Policies...</p>
+  </div>
+  }
+
+</div>

@@ -1,1 +1,323 @@
-<p>browse-policies works!</p>
+<h2 class="text-3xl font-bold text-slate-800 mb-2">
+  Browse Policies
+</h2>
+
+<p class="text-slate-500 mb-8">
+  Explore available insurance policies and choose what suits you best
+</p>
+
+<!-- Filter Section -->
+<div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+  <h3 class="text-xl font-bold text-slate-800 mb-4">Filter Policies</h3>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Type Filter -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700 mb-2">Policy Type</label>
+      <select [(ngModel)]="filters.type" (change)="applyFilters()"
+        class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        <option value="">All Types</option>
+        @for (type of policyTypes; track type) {
+        <option [value]="type">{{ type }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Premium Range -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700 mb-2">
+        Premium Range: ₹{{ filters.minPremium | number }} - ₹{{ filters.maxPremium | number }}
+      </label>
+      <div class="flex gap-2">
+        <input type="number" [(ngModel)]="filters.minPremium" (change)="applyFilters()" placeholder="Min"
+          class="w-1/2 p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+        <input type="number" [(ngModel)]="filters.maxPremium" (change)="applyFilters()" placeholder="Max"
+          class="w-1/2 p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+      </div>
+    </div>
+
+    <!-- Coverage Range -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700 mb-2">
+        Coverage Range: ₹{{ filters.minCoverage | number }} - ₹{{ filters.maxCoverage | number }}
+      </label>
+      <div class="flex gap-2">
+        <input type="number" [(ngModel)]="filters.minCoverage" (change)="applyFilters()" placeholder="Min"
+          class="w-1/2 p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+        <input type="number" [(ngModel)]="filters.maxCoverage" (change)="applyFilters()" placeholder="Max"
+          class="w-1/2 p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+      </div>
+    </div>
+  </div>
+
+  <div class="flex gap-4 mt-4">
+    <button (click)="resetFilters()"
+      class="px-6 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition">
+      Reset Filters
+    </button>
+
+    @if (selectedForComparison.length >= 2) {
+    <button (click)="compareSelected()"
+      class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition">
+      Compare Selected ({{ selectedForComparison.length }})
+    </button>
+    }
+  </div>
+</div>
+
+<!-- Policies Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  @for (policy of filteredPolicies; track policy.id) {
+  <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 flex flex-col relative transition-shadow">
+
+    <!-- Comparison Checkbox -->
+    <div class="absolute top-4 right-4">
+      <input type="checkbox" [checked]="isSelectedForComparison(policy)" (change)="toggleComparison(policy, $event)"
+        class="w-5 h-5 cursor-pointer">
+    </div>
+
+    <span class="inline-flex w-fit px-3 py-1 mb-4 text-xs font-semibold rounded-full" [ngClass]="{
+          'bg-rose-100 text-rose-600': policy.type === 'Health',
+          'bg-blue-100 text-blue-600': policy.type === 'Vehicle',
+          'bg-emerald-100 text-emerald-600': policy.type === 'Life'
+        }">
+      {{ policy.type }}
+    </span>
+
+    <h3 class="text-xl font-bold text-slate-800 mb-2">
+      {{ policy.name }}
+    </h3>
+
+    <p class="text-slate-500 text-sm mb-6">
+      {{ policy.description }}
+    </p>
+
+    <div class="text-sm text-slate-600 space-y-1 mb-6">
+      <p><strong>Coverage:</strong> ₹{{ policy.coverage | number }}</p>
+      <p><strong>Duration:</strong> {{ policy.durationDays }} days</p>
+    </div>
+
+    <div class="mt-auto">
+      <div class="text-2xl font-bold text-slate-900 mb-4">
+        ₹{{ policy.premium | number }}
+        <span class="text-sm font-normal text-slate-400">/year</span>
+      </div>
+
+      <div class="flex gap-2">
+        <button class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 rounded-xl transition"
+          (click)="viewDetails(policy)">
+          View Details
+        </button>
+        @if (isPolicyPurchased(policy.id)) {
+        <button class="flex-1 bg-slate-400 text-slate-600 font-semibold py-3 rounded-xl cursor-not-allowed" disabled>
+          Already Purchased
+        </button>
+        } @else {
+        <button class="flex-1 bg-blue-900 hover:bg-blue-800 text-white font-semibold py-3 rounded-xl transition"
+          (click)="buyNow(policy.id)">
+          Buy Now
+        </button>
+        }
+      </div>
+      @if (isPolicyPurchased(policy.id)) {
+      <p class="text-xs text-slate-500 mt-2 text-center">
+        You have already chosen this policy. View it in My Policies.
+      </p>
+      }
+    </div>
+  </div>
+  }
+
+  @if (filteredPolicies.length === 0) {
+  <div class="col-span-full text-center py-12">
+    <p class="text-slate-500 text-lg">No policies found matching your filters.</p>
+  </div>
+  }
+</div>
+
+<!-- Comparison Modal -->
+@if (showComparisonModal) {
+<div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-auto">
+    <div class="sticky top-0 bg-white border-b border-slate-200 p-6 flex justify-between items-center">
+      <h3 class="text-2xl font-bold text-slate-800">Compare Policies</h3>
+      <button (click)="closeComparisonModal()" class="text-slate-500 hover:text-slate-700 text-2xl font-bold">
+        ×
+      </button>
+    </div>
+
+    <div class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (policy of selectedForComparison; track policy.id) {
+        <div class="border border-slate-200 rounded-xl p-4">
+          <div class="mb-4">
+            <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+                    'bg-rose-100 text-rose-600': policy.type === 'Health',
+                    'bg-blue-100 text-blue-600': policy.type === 'Vehicle',
+                    'bg-emerald-100 text-emerald-600': policy.type === 'Life'
+                  }">
+              {{ policy.type }}
+            </span>
+          </div>
+
+          <h4 class="text-lg font-bold text-slate-800 mb-2">{{ policy.name }}</h4>
+          <p class="text-sm text-slate-500 mb-4">{{ policy.description }}</p>
+
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-slate-600">Premium:</span>
+              <span class="font-semibold">₹{{ policy.premium | number }}/year</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-600">Coverage:</span>
+              <span class="font-semibold">₹{{ policy.coverage | number }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-600">Duration:</span>
+              <span class="font-semibold">{{ policy.durationDays }} days</span>
+            </div>
+          </div>
+
+          @if (policy.features) {
+          <div class="mt-4">
+            <p class="font-semibold text-sm text-slate-700 mb-2">Features:</p>
+            <ul class="text-xs text-slate-600 space-y-1">
+              @for (feature of policy.features; track feature) {
+              <li>✓ {{ feature }}</li>
+              }
+            </ul>
+          </div>
+          }
+
+          @if (isPolicyPurchased(policy.id)) {
+          <button class="w-full mt-4 bg-slate-400 text-slate-600 font-semibold py-2 rounded-xl cursor-not-allowed"
+            disabled>
+            Already Purchased
+          </button>
+          } @else {
+          <button (click)="buyNow(policy.id); closeComparisonModal()"
+            class="w-full mt-4 bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 rounded-xl transition">
+            Buy Now
+          </button>
+          }
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Details Modal -->
+@if (showDetailsModal && selectedPolicy) {
+<div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-auto">
+
+    <!-- Header -->
+    <div class="sticky top-0 bg-white border-b border-slate-200 p-6 flex justify-between items-center">
+      <h3 class="text-2xl font-bold text-slate-800">Policy Details</h3>
+      <button (click)="closeDetailsModal()" class="text-slate-500 hover:text-slate-700 text-2xl font-bold">
+        ×
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+
+      <!-- Policy Type Badge -->
+      <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full mb-4" [ngClass]="{
+            'bg-rose-100 text-rose-600': selectedPolicy.type === 'Health',
+            'bg-blue-100 text-blue-600': selectedPolicy.type === 'Vehicle',
+            'bg-emerald-100 text-emerald-600': selectedPolicy.type === 'Life'
+          }">
+        {{ selectedPolicy.type }}
+      </span>
+
+      <!-- Title & Description -->
+      <h4 class="text-2xl font-bold text-slate-800 mt-2">
+        {{ selectedPolicy.name }}
+      </h4>
+      <p class="text-slate-500 mt-2">
+        {{ selectedPolicy.description }}
+      </p>
+
+      <!-- Info Cards -->
+      <div class="grid grid-cols-2 gap-4 my-6">
+        <div class="bg-slate-50 p-4 rounded-xl">
+          <p class="text-sm text-slate-600">Annual Premium</p>
+          <p class="text-2xl font-bold text-slate-900">
+            ₹{{ selectedPolicy.premium | number }}
+          </p>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-xl">
+          <p class="text-sm text-slate-600">Coverage Amount</p>
+          <p class="text-2xl font-bold text-slate-900">
+            ₹{{ selectedPolicy.coverage | number }}
+          </p>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-xl">
+          <p class="text-sm text-slate-600">Duration</p>
+          <p class="text-2xl font-bold text-slate-900">
+            {{ selectedPolicy.durationDays }} days
+          </p>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-xl">
+          <p class="text-sm text-slate-600">Policy Type</p>
+          <p class="text-2xl font-bold text-slate-900">
+            {{ selectedPolicy.type }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Key Features -->
+      @if (selectedPolicy.features) {
+      <div class="mb-6">
+        <h5 class="font-bold text-slate-800 mb-3">Key Features</h5>
+        <ul class="space-y-2">
+          @for (feature of selectedPolicy.features; track feature) {
+          <li class="flex items-start">
+            <span class="text-green-600 mr-2">✓</span>
+            <span class="text-slate-700">{{ feature }}</span>
+          </li>
+          }
+        </ul>
+      </div>
+      }
+
+      <!-- Exclusions -->
+      @if (selectedPolicy.exclusions) {
+      <div class="mb-6">
+        <h5 class="font-bold text-slate-800 mb-3">Exclusions</h5>
+        <ul class="space-y-2">
+          @for (exclusion of selectedPolicy.exclusions; track exclusion) {
+          <li class="flex items-start">
+            <span class="text-red-600 mr-2">✗</span>
+            <span class="text-slate-700">{{ exclusion }}</span>
+          </li>
+          }
+        </ul>
+      </div>
+      }
+
+      <!-- CTA -->
+      @if (isPolicyPurchased(selectedPolicy.id)) {
+      <button class="w-full bg-slate-400 text-slate-600 font-semibold py-3 rounded-xl cursor-not-allowed" disabled>
+        Already Purchased
+      </button>
+      <p class="text-sm text-slate-500 mt-2 text-center">
+        You have already chosen this policy. View it in My Policies.
+      </p>
+      } @else {
+      <button (click)="buyNow(selectedPolicy.id); closeDetailsModal()"
+        class="w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-3 rounded-xl transition">
+        Buy This Policy
+      </button>
+      }
+
+    </div>
+  </div>
+</div>
+}

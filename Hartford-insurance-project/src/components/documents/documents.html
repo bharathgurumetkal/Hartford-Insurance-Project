@@ -1,59 +1,73 @@
 <div class="p-8">
 
-    <div class="flex justify-between items-center mb-6">
+  <!-- Header -->
+  <div class="mb-8 flex justify-between items-center">
+    <div>
       <h1 class="text-3xl font-bold text-slate-900">My Documents</h1>
-      <button class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition">
-        <span class="material-icons">upload</span>
-        Upload Document
-      </button>
+      <p class="text-slate-500">All documents uploaded with your claims</p>
     </div>
-  
-    <!-- Loading State -->
-    @if (isLoading) {
-      <div class="flex justify-center py-12">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
-    }
-  
-    <!-- Empty State -->
-    @if (!isLoading && documents.length === 0) {
-      <div class="text-center py-12 bg-white rounded-xl shadow-sm border border-slate-200">
-        <span class="material-icons text-slate-300 text-6xl mb-4">folder_off</span>
-        <p class="text-slate-500 text-lg">No documents found.</p>
-        <p class="text-slate-400 text-sm">Upload a document to get started.</p>
-      </div>
-    }
-  
-    <!-- Documents Grid -->
-    @if (!isLoading && documents.length > 0) {
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (doc of documents; track doc.id) {
-          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
-            <div class="flex items-start justify-between mb-4">
-              <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                <span class="material-icons text-blue-600">{{ getIconForType(doc.documentType) }}</span>
-              </div>
-              <span class="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded">
-                {{ doc.documentType }}
-              </span>
-            </div>
-            
-            <h3 class="font-semibold text-slate-900 mb-1 truncate" title="{{ doc.fileName }}">
-              {{ doc.fileName }}
-            </h3>
-            <p class="text-xs text-slate-500 mb-4">Uploaded on {{ doc.uploadDate | date:'mediumDate' }}</p>
-  
-            <div class="flex gap-2">
-              <button class="flex-1 text-sm bg-slate-50 text-slate-700 py-2 rounded hover:bg-slate-100 transition">
-                View
-              </button>
-              <button class="flex-1 text-sm bg-blue-50 text-blue-700 py-2 rounded hover:bg-blue-100 transition">
-                Download
-              </button>
-            </div>
-          </div>
-        }
-      </div>
-    }
-  
+
+    <div class="text-sm text-slate-500">
+      Total Documents:
+      <span class="font-bold text-slate-900">{{ documents.length }}</span>
+    </div>
   </div>
+
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="text-center py-20 text-slate-500">
+      <span class="material-icons animate-spin text-3xl mb-3">sync</span>
+      <p>Loading documents...</p>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (!isLoading && documents.length === 0) {
+    <div class="text-center py-20">
+      <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <span class="material-icons text-3xl text-slate-400">folder_off</span>
+      </div>
+      <p class="text-slate-600 font-medium">No documents found</p>
+      <p class="text-slate-400 text-sm">Upload a claim to see documents here</p>
+    </div>
+  }
+
+  <!-- Documents Grid -->
+  <div class="grid md:grid-cols-3 gap-6" *ngIf="!isLoading && documents.length > 0">
+
+    @for (doc of documents; track doc.documentName) {
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition p-5">
+
+        <!-- Icon -->
+        <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center mb-4">
+          <span class="material-icons text-blue-600 text-2xl">description</span>
+        </div>
+
+        <!-- Document Info -->
+        <h3 class="font-semibold text-slate-900 truncate">
+          {{ doc.documentName }}
+        </h3>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Claim ID: <span class="font-medium">{{ doc.claimId }}</span>
+        </p>
+
+        <p class="text-xs text-slate-400 mt-1">
+          {{ doc.policyName }}
+        </p>
+
+        <p class="text-xs text-slate-400 mt-2 flex items-center gap-1">
+          <span class="material-icons text-[14px]">event</span>
+          {{ doc.date }}
+        </p>
+
+        <!-- Action -->
+        <button class="mt-4 w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-slate-900 text-white text-sm hover:bg-slate-700 transition">
+          <span class="material-icons text-sm">download</span>
+          Download
+        </button>
+      </div>
+    }
+
+  </div>
+</div>

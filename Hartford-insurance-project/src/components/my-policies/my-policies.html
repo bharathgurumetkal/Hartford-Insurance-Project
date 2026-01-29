@@ -1,1 +1,123 @@
-<p>my-policies works!</p>
+<div class="min-h-screen bg-[#f8fafc] font-sans pb-12">
+
+
+
+  <div class="p-6 md:p-10 max-w-[1400px] mx-auto space-y-8">
+
+    <div
+      class="bg-gradient-to-r from-[#1e3a8a] via-[#2563eb] to-[#3b82f6] rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden">
+      <div class="relative z-10">
+        <div class="flex items-center gap-6 mb-10">
+          <div class="bg-white/10 p-4 rounded-2xl border border-white/20 backdrop-blur-md">
+            <i class="bi bi-file-earmark-text text-4xl"></i>
+          </div>
+          <div>
+            <h1 class="text-4xl font-black tracking-tight">My Policies</h1>
+            <p class="text-blue-100 font-medium opacity-80 mt-1">Manage your insurance portfolio</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-lg">
+            <p class="text-[10px] uppercase font-black text-blue-100 tracking-[0.2em] mb-3">Active Policies</p>
+            <p class="text-4xl font-bold">{{ activeCount }}</p>
+          </div>
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-lg">
+            <p class="text-[10px] uppercase font-black text-blue-100 tracking-[0.2em] mb-3">Monthly Premium</p>
+            <p class="text-3xl font-bold break-words">₹{{ monthlyPremium | number:'1.0-0' }}</p>
+          </div>
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-lg">
+            <p class="text-[10px] uppercase font-black text-blue-100 tracking-[0.2em] mb-3">Total Coverage</p>
+            <p class="text-3xl font-bold break-words">₹{{ formatCoverage(totalCoverageAmount) }}</p>
+          </div>
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-lg">
+            <p class="text-[10px] uppercase font-black text-yellow-300 tracking-[0.2em] mb-3">Renewal Alerts</p>
+            <p class="text-4xl font-bold text-yellow-300">{{ renewalAlertsCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-4 items-center">
+      <div class="relative flex-grow w-full">
+        <i class="bi bi-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Search policies..."
+          class="w-full pl-14 pr-6 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-medium transition-all shadow-sm" />
+      </div>
+      <select [(ngModel)]="selectedType" (change)="applyFilters()"
+        class="bg-white border border-slate-200 px-6 py-4 rounded-2xl font-bold text-slate-700 outline-none min-w-[160px] shadow-sm">
+        <option value="">All Types</option>
+        <option value="Health">Health</option>
+        <option value="Vehicle">Vehicle</option>
+        <option value="Life">Life</option>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (policy of filteredPolicies; track policy.id) {
+      <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col group">
+
+        <div class="p-6 text-white" [style.background-color]="
+                policy.policyType === 'Health' ? '#f43f5e' : 
+                policy.policyType === 'Vehicle' ? '#3b82f6' : 
+                policy.policyType === 'Life' ? '#8b5cf6' : '#f59e0b'">
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center border border-white/20">
+                @if(policy.policyType === 'Health') {
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+                } @else if(policy.policyType === 'Vehicle') {
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" />
+                </svg>
+                } @else {
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+                </svg>
+                }
+              </div>
+              <div>
+                <h3 class="text-lg font-bold">{{ policy.policyName }}</h3>
+                <p class="text-white/70 text-[10px] font-mono tracking-widest">{{ policy.id }}</p>
+              </div>
+            </div>
+            <span class="bg-white/20 text-[9px] font-black px-3 py-1 rounded-full uppercase">Active</span>
+          </div>
+        </div>
+
+        <div class="p-6">
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Coverage</p>
+              <p class="text-xl font-bold text-slate-900">₹{{ policy.coverage | number }}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Premium</p>
+              <p class="text-xl font-bold text-slate-900">₹{{ getMonthlyPremium(policy) | number:'1.0-0' }}</p>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-[10px] font-bold">
+              <span [class.text-red-500]="calculateDaysRemaining(policy) <= 30" class="text-slate-500">
+                <i class="bi bi-clock-history mr-1"></i> Renewal in {{ calculateDaysRemaining(policy) }} days
+              </span>
+              <span class="text-slate-300 font-mono">{{ policy.purchaseDate }}</span>
+            </div>
+            <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div class="h-full bg-blue-600 transition-all duration-700" [style.width.%]="getProgressWidth(policy)"
+                [class.bg-red-500]="calculateDaysRemaining(policy) <= 30">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
